@@ -2,18 +2,22 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  const persons = [
+  const users = [
     {
-      name: "Dana",
-      image_src: "/uploads/man.png",
+      name: "adiel",
+      email: "adiel13150@gmail.com",
+      password: "123456",
+      image_src: "/uploads/woman.png",
     },
     {
-      name: "Yossi",
-      image_src: "/uploads/man.png",
+      name: "Orly",
+      email: "orly@gmail.com",
+      password: "1234567",
+      image_src: "/uploads/woman.png",
     },
   ];
 
-  res.json(persons);
+  res.json(users);
 });
 // router.get("/:id", (req, res) => {
 //   const article = {

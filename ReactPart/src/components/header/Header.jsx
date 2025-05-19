@@ -8,9 +8,9 @@ import StateButton from "../buttons/stateButton/StateButton";
  * @returns JSX of component
  */
 function Header(props) {
-  console.log(props.person);
-  const { name, image_src } = props.person;
-  // console.log(props.person);
+  console.log(props.user);
+  const { name, image_src } = props.user;
+
   return (
     <header className={classes.header}>
       <div className={classes.userWrapper}>

@@ -12,6 +12,20 @@ export default function Login(props) {
   function navigateToCreate() {
     navigate("/create");
   }
+
+  function checkUser(e) {
+    console.log("in");
+    console.log(users.length);
+    for (let i = 0; i < users.length; i++) {
+      console.log(email, password);
+      console.log(users[i].email, users[i].password);
+      if (users[i].email === email && users[i].password === password) {
+        console.log("found");
+        func(users[i]);
+      }
+    }
+    e.preventDefault();
+  }
   return (
     <div>
       <img className={classes.logo} src={finalLogo} />
@@ -38,7 +52,7 @@ export default function Login(props) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Submit text="Let me in!" />
+          <Submit text="Let me in!" func={checkUser} />
         </form>
       </div>
       <p className={classes.p}>
