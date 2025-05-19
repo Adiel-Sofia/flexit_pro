@@ -1,0 +1,43 @@
+.logo {
+  width: 300px;
+  display: block;
+  margin: auto;
+  padding: 4%;
+}
+.createAccountForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 35%;
+}
+.form_data {
+  display: flex;
+  justify-content: center;
+}
+.form__item {
+  display: flex;
+  justify-content: space-between;
+}
+.inputBox {
+  padding: 12px 20px;
+  width: 300px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s;
+  font-size: 16px;
+  background: white;
+}
+
+.inputBox:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+  background: #fafcff;
+}
+.createAccountForm label {
+  font-size: 2em;
+}
+.p {
+  text-align: center;
+  padding: 5%;
+}

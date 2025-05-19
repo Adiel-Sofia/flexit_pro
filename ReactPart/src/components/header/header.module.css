@@ -1,0 +1,31 @@
+.header {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2%;
+}
+.logo {
+  margin: auto;
+  width: 200px;
+}
+.userWrapper {
+  display: inline;
+  display: flex;
+}
+
+.userWrapper p {
+  display: inline;
+  margin-left: 15%;
+}
+.userWrapper img {
+  width: 60px;
+  height: 60px;
+  display: inline;
+}
+.buttonsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 3%;
+}
