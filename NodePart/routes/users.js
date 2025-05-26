@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
+  const userData = req.body;
+  console.log("adiel2");
+  let userIn = [];
   const users = [
     {
       name: "adiel",
@@ -16,8 +19,20 @@ router.get("/", (req, res) => {
       image_src: "/uploads/woman.png",
     },
   ];
+  console.log(userData);
+  for (let i = 0; i < users.length; i++) {
+    if (
+      users[i].email === userData.email &&
+      users[i].password === userData.password
+    ) {
+      console.log("found");
+      userIn = users[i];
+    }
+  }
+  console.log("sending ");
 
-  res.json(users);
+  res.json(userIn);
+  // res.json(users);
 });
 // router.get("/:id", (req, res) => {
 //   const article = {

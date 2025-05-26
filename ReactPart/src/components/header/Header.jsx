@@ -9,7 +9,7 @@ import StateButton from "../buttons/stateButton/StateButton";
  */
 function Header(props) {
   console.log(props.user);
-  const { name, image_src } = props.user;
+  const { name, email, password, image_src } = props.user;
 
   return (
     <header className={classes.header}>

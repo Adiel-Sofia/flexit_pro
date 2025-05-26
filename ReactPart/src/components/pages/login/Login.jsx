@@ -3,27 +3,33 @@ import classes from "../login/login.module.css";
 import { useState } from "react";
 import Submit from "../../buttons/submit/Submit";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 export default function Login(props) {
-  const { func, users } = props;
+  const { func } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   function navigateToCreate() {
     navigate("/create");
   }
+  const userToSend = {
+    email,
+    password,
+  };
 
   function checkUser(e) {
-    console.log("in");
-    console.log(users.length);
-    for (let i = 0; i < users.length; i++) {
-      console.log(email, password);
-      console.log(users[i].email, users[i].password);
-      if (users[i].email === email && users[i].password === password) {
-        console.log("found");
-        func(users[i]);
-      }
-    }
+    axios
+      .post("user", userToSend)
+      .then((res) => {
+        console.log("adiel");
+        console.log(res.data);
+        func(res.data);
+        // Data from API
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
     e.preventDefault();
   }
   return (
