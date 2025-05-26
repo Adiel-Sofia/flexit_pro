@@ -24,6 +24,7 @@ export default function Login(props) {
         console.log("adiel");
         console.log(res.data);
         func(res.data);
+        navigate("/use");
         // Data from API
       })
       .catch((error) => {
