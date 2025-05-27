@@ -15,12 +15,16 @@ function App() {
   const [userIn, setUserIn] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
-  // let userFinal = [];
+
   function reLogin(userToSet) {
     console.log(userToSet);
-    setUserIn(localStorage.setItem("user", JSON.stringify(userToSet)));
-    console.log("dljzfhkfhk");
-    console.log(userIn);
+    localStorage.setItem("user", JSON.stringify(userToSet));
+    setUserIn(localStorage.getItem("user"));
+  }
+
+  function logOut() {
+    localStorage.setItem("user", JSON.stringify(null));
+    setUserIn(localStorage.getItem("user"));
   }
 
   return (
@@ -32,7 +36,7 @@ function App() {
             <Route path="/create" element={<CreateAccount />} />
 
             <Route
-              element={userIn ? <Layout user={userIn} /> : <Navigate to="/" />}
+              element={userIn ? <Layout func={logOut} /> : <Navigate to="/" />}
             >
               <Route path="/use" element={<Use />} />
               {/* if nothing was found, show NotFound */}

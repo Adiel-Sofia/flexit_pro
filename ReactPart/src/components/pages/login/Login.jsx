@@ -8,6 +8,7 @@ export default function Login(props) {
   const { func } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   function navigateToCreate() {
     navigate("/create");
@@ -18,20 +19,23 @@ export default function Login(props) {
   };
 
   function checkUser(e) {
+    e.preventDefault();
     axios
       .post("user", userToSend)
       .then((res) => {
-        console.log("adiel");
-        console.log(res.data);
-        func(res.data);
-        navigate("/use");
-        // Data from API
+        if (res.data === null) {
+          setShow(true);
+        } else {
+          console.log(res.data);
+          func(res.data);
+          navigate("/use");
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
       });
 
-    e.preventDefault();
+    //
   }
   return (
     <div>
@@ -65,6 +69,11 @@ export default function Login(props) {
       <p className={classes.p}>
         Dont Have an Acount? <span onClick={navigateToCreate}>Sign Up!</span>
       </p>
+      {show ? (
+        <div className={classes.popUpErrorMsg}>
+          <p>The password or the email is incorrect</p>
+        </div>
+      ) : null}
     </div>
   );
 }

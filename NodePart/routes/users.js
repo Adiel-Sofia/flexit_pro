@@ -1,37 +1,58 @@
 const express = require("express");
 const router = express.Router();
+const dbSingleton = require("../dbSingleton");
+const db = dbSingleton.getConnection();
 
 router.post("/", (req, res) => {
   const userData = req.body;
-  console.log("adiel2");
-  let userIn = [];
-  const users = [
-    {
-      name: "adiel",
-      email: "adiel13150@gmail.com",
-      password: "123456",
-      image_src: "/uploads/woman.png",
-    },
-    {
-      name: "Orly",
-      email: "orly@gmail.com",
-      password: "1234567",
-      image_src: "/uploads/woman.png",
-    },
-  ];
-  console.log(userData);
-  for (let i = 0; i < users.length; i++) {
-    if (
-      users[i].email === userData.email &&
-      users[i].password === userData.password
-    ) {
-      console.log("found");
-      userIn = users[i];
-    }
-  }
-  console.log("sending ");
+  let userIn = null;
 
-  res.json(userIn);
+  const query = "SELECT * FROM users";
+  db.query(query, [], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    //dealing with results
+    for (let i = 0; i < results.length; i++) {
+      if (
+        results[i].email === userData.email &&
+        results[i].password === userData.password
+      ) {
+        console.log("found");
+        userIn = results[i];
+      }
+    }
+
+    res.json(userIn);
+  });
+  // const users = [
+  //   {
+  //     name: "adiel",
+  //     email: "adiel13150@gmail.com",
+  //     password: "123456",
+  //     image_src: "/uploads/woman.png",
+  //   },
+  //   {
+  //     name: "Orly",
+  //     email: "orly@gmail.com",
+  //     password: "1234567",
+  //     image_src: "/uploads/woman.png",
+  //   },
+  // ];
+
+  // for (let i = 0; i < users.length; i++) {
+  //   if (
+  //     users[i].email === userData.email &&
+  //     users[i].password === userData.password
+  //   ) {
+  //     console.log("found");
+  //     userIn = users[i];
+  //   }
+  // }
+  // console.log("sending ");
+
+  // res.json(userIn);
   // res.json(users);
 });
 // router.get("/:id", (req, res) => {
