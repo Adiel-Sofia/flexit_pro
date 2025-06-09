@@ -2,12 +2,12 @@ import classes from "../logOut/logOut.module.css";
 import { useNavigate } from "react-router-dom";
 
 function LogOut(props) {
-  const { func } = props;
+  const { logout } = props;
   const navigate = useNavigate();
 
   function handleLogOut() {
     console.log("getting out");
-    func();
+    logout();
     navigate("/");
   }
   return (

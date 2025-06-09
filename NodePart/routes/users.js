@@ -3,6 +3,37 @@ const router = express.Router();
 const dbSingleton = require("../dbSingleton");
 const db = dbSingleton.getConnection();
 
+router.post("/register", (req, res) => {
+  let flag = false;
+  const { email, firstName, lastName, phone, userName, userbDate, password } =
+    req.body;
+  const img = null;
+  const query = "SELECT * FROM users WHERE email=? ";
+  db.query(query, [email], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    console.log(results);
+    if (results.length > 0) res.json(true);
+    else {
+      console.log(email, firstName);
+      const query1 =
+        "INSERT INTO users (email, userName, password, firstName, lastName, phoneNumber, bDate, img) VALUES (?,?,?,?,?,?,?,?) ";
+      db.query(
+        query1,
+        [email, userName, password, firstName, lastName, phone, userbDate, img],
+        (err, results) => {
+          if (err) {
+            res.status(500).send(err);
+            return;
+          }
+          console.log(results);
+        }
+      );
+    }
+  });
+});
 router.post("/", (req, res) => {
   const userData = req.body;
   let userIn = null;
@@ -26,45 +57,7 @@ router.post("/", (req, res) => {
 
     res.json(userIn);
   });
-  // const users = [
-  //   {
-  //     name: "adiel",
-  //     email: "adiel13150@gmail.com",
-  //     password: "123456",
-  //     image_src: "/uploads/woman.png",
-  //   },
-  //   {
-  //     name: "Orly",
-  //     email: "orly@gmail.com",
-  //     password: "1234567",
-  //     image_src: "/uploads/woman.png",
-  //   },
-  // ];
-
-  // for (let i = 0; i < users.length; i++) {
-  //   if (
-  //     users[i].email === userData.email &&
-  //     users[i].password === userData.password
-  //   ) {
-  //     console.log("found");
-  //     userIn = users[i];
-  //   }
-  // }
-  // console.log("sending ");
-
-  // res.json(userIn);
-  // res.json(users);
 });
-// router.get("/:id", (req, res) => {
-//   const article = {
-//     id: 1,
-//     title: "Understanding JavaScript",
-//     content:
-//       "JavaScript is a versatile programming language used for both front-end and back-end development.",
-//     img: "https://loremflickr.com/200/200?random=1",
-//   };
-//   res.json(article);
-// });
 
 router.delete("/:id", (req, res) => {
   res.json({ message: "article deleted!" });

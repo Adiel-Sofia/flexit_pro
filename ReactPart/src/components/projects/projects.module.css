@@ -1,0 +1,29 @@
+.container {
+  position: sticky;
+  top: 0; /* sticky to top of main (which is already below header) */
+  margin-left: auto; /* push to right */
+  width: 200px;
+  height: 100%; /* take full height of main */
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px 0 0 8px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* scroll inside container if needed */
+  margin-top: 2%;
+}
+
+.proListItem {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: #d5a985;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.proListItem:hover {
+  background-color: #966d55;
+  cursor: pointer;
+}

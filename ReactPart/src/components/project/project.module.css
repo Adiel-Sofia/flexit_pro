@@ -1,0 +1,28 @@
+.container {
+  position: sticky;
+  top: 0;
+  margin-left: auto;
+  width: 200px;
+  height: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius-lg) 0 0 var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow-y: auto;
+}
+
+.proListItem {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  background-color: var(--bg-tertiary);
+  transition: var(--transition-base);
+  text-align: center;
+}
+
+.proListItem:hover {
+  background-color: var(--primary-light);
+  cursor: pointer;
+}

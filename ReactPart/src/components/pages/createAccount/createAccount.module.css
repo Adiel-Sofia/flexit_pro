@@ -1,39 +1,77 @@
 .logo {
-  width: 300px;
+  width: 200px;
+  height: auto;
+  margin-bottom: 2rem;
   display: block;
-  margin: auto;
-  padding: 4%;
+  margin-left: auto;
+  margin-right: auto;
 }
-.createAccountForm {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 35%;
-}
+
 .form_data {
   display: flex;
   justify-content: center;
+  padding: 2rem;
 }
+
+.createAccountForm {
+  width: 100%;
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
 .form__item {
-  display: flex;
-  justify-content: space-between;
+  margin-bottom: 1.25rem;
 }
+
+.form__item label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
 .inputBox {
-  padding: 12px 20px;
-  width: 300px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  transition: 0.3s;
-  font-size: 16px;
-  background: white;
+  width: 90%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .inputBox:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
-  background: #fafcff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  outline: none;
 }
-.createAccountForm label {
-  font-size: 2em;
+
+.p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.p span {
+  color: #4a90e2;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.p span:hover {
+  text-decoration: underline;
+}
+
+.popUpErrorMsg {
+  background-color: #ffe5e5;
+  color: #d8000c;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 20px auto;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 0 0 1px #f5c2c2;
 }

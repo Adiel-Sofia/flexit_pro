@@ -1,8 +1,12 @@
 import "./use.module.css";
+import Projects from "../../projects/Projects";
 export default function Use() {
+  const list = ["pro1", "pro2", "pro3"];
   return (
-    <div>
-      <p>sjgfsdjgfj</p>
-    </div>
+    <main className="main">
+      <div>
+        <Projects projects={list} />
+      </div>
+    </main>
   );
 }

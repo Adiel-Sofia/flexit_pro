@@ -10,8 +10,10 @@ import Login from "../components/pages/login/Login";
 import Layout from "./Layout";
 import CreateAccount from "../components/pages/createAccount/CreateAccount";
 import NotFound from "../components/pages/notFound/NotFound";
+import Modify from "../components/pages/modify/Modify";
 
 function App() {
+
   const [userIn, setUserIn] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
@@ -27,6 +29,10 @@ function App() {
     setUserIn(localStorage.getItem("user"));
   }
 
+  // function navigateTo(where) {
+  //   navigate("/modify");
+  // }
+
   return (
     <div className={classes.app}>
       <main>
@@ -36,16 +42,16 @@ function App() {
             <Route path="/create" element={<CreateAccount />} />
 
             <Route
-              element={userIn ? <Layout func={logOut} /> : <Navigate to="/" />}
+              element={userIn ? <Layout logOut={logOut} /> : <Navigate to="/" />}
             >
               <Route path="/use" element={<Use />} />
+              <Route path="/modify" element={<Modify />} />
               {/* if nothing was found, show NotFound */}
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </Router>
       </main>
-      <Footer />
     </div>
   );
 }

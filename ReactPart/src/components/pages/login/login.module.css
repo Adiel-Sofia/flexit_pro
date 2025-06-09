@@ -1,71 +1,262 @@
-.logo {
-  width: 300px;
-  display: block;
-  margin: auto;
-  padding: 4%;
+/* .container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-secondary);
+  padding: var(--spacing-lg);
 }
-.createAccountForm {
+
+.formWrapper {
+  background-color: var(--bg-primary);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 500px;
+}
+
+.formTitle {
+  font-family: var(--font-family-primary);
+  font-size: 2rem;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 35%;
+  gap: var(--spacing-md);
 }
-.form_data {
+
+.formItem {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
-.form__item {
-  display: flex;
-  justify-content: space-between;
+
+.formLabel {
+  font-family: var(--font-family-primary);
+  color: var(--text-secondary);
+  margin: 0;
 }
+
 .inputBox {
-  padding: 12px 20px;
-  width: 300px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  transition: 0.3s;
-  font-size: 16px;
-  background: white;
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-primary);
+  border-radius: var(--border-radius-md);
+  font-size: 1rem;
+  transition: var(--transition-base);
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
 }
 
 .inputBox:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
-  background: #fafcff;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+  outline: none;
 }
-.createAccountForm label {
-  font-size: 2em;
+
+.errorMsg {
+  text-align: center;
+  background-color: var(--error-color);
+  color: var(--bg-primary);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  margin: var(--spacing-md) 0;
 }
+
+.errorMsg.button {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--primary-color);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: var(--font-family-primary);
+  transition: var(--transition-base);
+}
+
+.button:hover {
+  background-color: var(--primary-dark);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.button:disabled {
+  background-color: var(--border-primary);
+  cursor: not-allowed;
+}
+
 .p {
   text-align: center;
-  padding: 5%;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.logo {
+  display: block;
+  margin: 40px auto 20px;
+  width: 180px;
+  height: auto;
+}
+
+.form_data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.createAccountForm {
+  background-color: var(--bg-primary);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__item label {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.inputBox {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+.inputBox:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.p span {
+  color: #4a90e2;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.p span:hover {
+  text-decoration: underline;
 }
 
 .popUpErrorMsg {
+  background-color: #ffe5e5;
+  color: #d8000c;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 20px auto;
   text-align: center;
-  background-color: brown;
-  width: 40%;
-  margin: auto;
-  color: white;
-  padding: 0.2%;
-  border-radius: 10px;
-  animation: horizontal-shaking 0.35s;
+  max-width: 400px;
+  box-shadow: 0 0 0 1px #f5c2c2;
+} */
+.logo {
+  width: 200px;
+  height: auto;
+  margin-bottom: 2rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-@keyframes horizontal-shaking {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(5px);
-  }
-  50% {
-    transform: translateX(-5px);
-  }
-  75% {
-    transform: translateX(5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+
+.form_data {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.createAccountForm {
+  width: 100%;
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.form__item {
+  margin-bottom: 1.25rem;
+}
+
+.form__item label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.inputBox {
+  width: 90%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.inputBox:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  outline: none;
+}
+
+.p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.p span {
+  color: #4a90e2;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.p span:hover {
+  text-decoration: underline;
+}
+
+.popUpErrorMsg {
+  background-color: #ffe5e5;
+  color: #d8000c;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 20px auto;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 0 0 1px #f5c2c2;
 }

@@ -9,11 +9,10 @@ import LogOut from "../buttons/logOut/LogOut";
  * @returns JSX of component
  */
 function Header(props) {
-  const { func } = props;
+  const { logout } = props;
   const [userIn, setUserIn] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
-  console.log(userIn);
 
   const image_src = "/uploads/woman.png";
   return (
@@ -21,7 +20,7 @@ function Header(props) {
       <div className={classes.userWrapper}>
         <div>
           <img src={image_src} />
-          <LogOut func={func} />
+          <LogOut logout={logout} />
         </div>
         <div>
           <p>{userIn.userName}</p>
@@ -32,8 +31,8 @@ function Header(props) {
         <img className={classes.logo} src={finalLogo} />
       </div>
       <div className={classes.buttonsWrapper}>
-        <StateButton name="Use" />
-        <StateButton name="Moodify" />
+        <StateButton name="Use" func={props.use} />
+        <StateButton name="Moodify" func={props.modify} />
       </div>
     </header>
   );
