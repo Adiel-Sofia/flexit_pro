@@ -9,7 +9,7 @@ import LogOut from "../buttons/logOut/LogOut";
  * @returns JSX of component
  */
 function Header(props) {
-  const { logout } = props;
+  const { logOut } = props;
   const [userIn, setUserIn] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
@@ -20,7 +20,7 @@ function Header(props) {
       <div className={classes.userWrapper}>
         <div>
           <img src={image_src} />
-          <LogOut logout={logout} />
+          <LogOut logOut={logOut} />
         </div>
         <div>
           <p>{userIn.userName}</p>

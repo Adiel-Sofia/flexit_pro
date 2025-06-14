@@ -46,7 +46,7 @@ function CreateAccount(props) {
     <div>
       <img className={classes.logo} src={finalLogo} />
       <div className={classes.form_data}>
-        <form className={classes.createAccountForm}>
+        <form className={classes.createAccountForm} onSubmit={handleSubmit}>
           <div className={classes.form__item}>
             <label>Email:</label>
             <input
@@ -125,7 +125,7 @@ function CreateAccount(props) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Submit text="Create My Account!" func={handleSubmit} />
+          <Submit text="Create My Account!" />
           <p className={classes.p}>
             Already Have an Acount?{" "}
             <span onClick={navigateToLogIn}>Log In!</span>

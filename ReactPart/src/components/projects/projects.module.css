@@ -27,3 +27,19 @@
   background-color: #966d55;
   cursor: pointer;
 }
+
+.title {
+  text-align: center;
+}
+
+.addProject {
+  text-align: center;
+}
+.plus {
+  font-size: 4rem;
+  cursor: pointer;
+}
+
+.plus:active {
+  transform: scale(1);
+}

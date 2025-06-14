@@ -13,10 +13,10 @@ export default function Layout(props) {
   function navigateToModify() {
     navigate("/modify");
   }
-  const { logout } = props;
+  const { logOut } = props;
   return (
     <div className={classes.layoutContainer}>
-      <Header logout={logout} modify={navigateToModify} use={navigateToUse} />
+      <Header logOut={logOut} modify={navigateToModify} use={navigateToUse} />
 
       <main className={classes.mainContent}>
         <Outlet />

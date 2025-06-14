@@ -5,7 +5,6 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Use from "../components/pages/use/Use";
 import classes from "./app.module.css";
-import { Header, Footer } from "../components/";
 import Login from "../components/pages/login/Login";
 import Layout from "./Layout";
 import CreateAccount from "../components/pages/createAccount/CreateAccount";
@@ -13,7 +12,6 @@ import NotFound from "../components/pages/notFound/NotFound";
 import Modify from "../components/pages/modify/Modify";
 
 function App() {
-
   const [userIn, setUserIn] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
@@ -27,11 +25,8 @@ function App() {
   function logOut() {
     localStorage.setItem("user", JSON.stringify(null));
     setUserIn(localStorage.getItem("user"));
+    console.clear();
   }
-
-  // function navigateTo(where) {
-  //   navigate("/modify");
-  // }
 
   return (
     <div className={classes.app}>
@@ -42,7 +37,9 @@ function App() {
             <Route path="/create" element={<CreateAccount />} />
 
             <Route
-              element={userIn ? <Layout logOut={logOut} /> : <Navigate to="/" />}
+              element={
+                userIn ? <Layout logOut={logOut} /> : <Navigate to="/" />
+              }
             >
               <Route path="/use" element={<Use />} />
               <Route path="/modify" element={<Modify />} />

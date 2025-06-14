@@ -1,7 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const nodemailer = require("nodemailer");
 const dbSingleton = require("../dbSingleton");
+const sgMail = require("@sendgrid/mail");
 const db = dbSingleton.getConnection();
+
+const system_mail = "FLEXIT.workspace@gmail.com";
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: system_mail,
+//     pass: "Flexit&workspace123",
+//   },
+// });
+sgMail.setApiKey("SENDGRID_API_KEY");
 
 router.post("/register", (req, res) => {
   let flag = false;
@@ -14,12 +26,11 @@ router.post("/register", (req, res) => {
       res.status(500).send(err);
       return;
     }
-    console.log(results);
     if (results.length > 0) res.json(true);
     else {
       console.log(email, firstName);
       const query1 =
-        "INSERT INTO users (email, userName, password, firstName, lastName, phoneNumber, bDate, img) VALUES (?,?,?,?,?,?,?,?) ";
+        "INSERT INTO users (email, userName, password, firstName, lastName, phoneNumber, bDay) VALUES (?,?,?,?,?,?,?)";
       db.query(
         query1,
         [email, userName, password, firstName, lastName, phone, userbDate, img],
@@ -28,7 +39,37 @@ router.post("/register", (req, res) => {
             res.status(500).send(err);
             return;
           }
-          console.log(results);
+          // const mailOptions = {
+          //   from: system_mail,
+          //   to: email,
+          //   subject: "Sending Email using Node.js",
+          //   text: "That was easy!",
+          // };
+
+          // transporter.sendMail(mailOptions, function (error, info) {
+          //   if (error) {
+          //     console.log(error);
+          //   } else {
+          //     console.log("Email sent: " + info.response);
+          //   }
+          // });
+
+          // const msg = {
+          //   to: email,
+          //   from: system_mail,
+          //   subject: "Trying",
+          //   text: "checks if it works",
+          //   html: "<p>fasdsdxz</p>",
+          // };
+
+          // sgMail
+          //   .send(msg)
+          //   .then(() => {
+          //     console.log("success");
+          //   })
+          //   .catch((error) => {
+          //     console.error("Error:", error);
+          //   });
         }
       );
     }
@@ -59,7 +100,4 @@ router.post("/", (req, res) => {
   });
 });
 
-router.delete("/:id", (req, res) => {
-  res.json({ message: "article deleted!" });
-});
 module.exports = router;

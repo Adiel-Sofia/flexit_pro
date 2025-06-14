@@ -41,7 +41,7 @@ export default function Login(props) {
     <div>
       <img className={classes.logo} src={finalLogo} />
       <div className={classes.form_data}>
-        <form className={classes.createAccountForm}>
+        <form className={classes.createAccountForm} onSubmit={checkUser}>
           <div className={classes.form__item}>
             <label>Email:</label>
             <input
@@ -63,7 +63,7 @@ export default function Login(props) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Submit text="Let me in!" func={checkUser} />
+          <Submit text="Let me in!" />
         </form>
       </div>
       <p className={classes.p}>
