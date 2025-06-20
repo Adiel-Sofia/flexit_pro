@@ -1,4 +1,6 @@
 import Footer from "../../footer/Footer";
+
+//page not found
 export default function NotFound() {
   return (
     <div>

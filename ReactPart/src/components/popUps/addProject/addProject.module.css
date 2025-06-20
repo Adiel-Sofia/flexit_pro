@@ -1,36 +1,31 @@
-/* ProjectPopup.module.css */
-
-/* Overlay that covers the whole screen */
 .overlay {
-  position: fixed; /* Stays in place regardless of scrolling */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  justify-content: center; /* Horizontally centers the popup */
-  align-items: center; /* Vertically centers the popup */
-  z-index: 1000; /* Ensures the popup is on top of other content */
-  animation: fadeIn 0.3s ease-out; /* Simple fade-in animation */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* The actual popup content box */
 .popup {
   background-color: #ffffff;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  width: 90%; /* Responsive width for smaller screens */
-  max-width: 450px; /* Maximum width for larger screens */
-  position: relative; /* Needed for positioning the close button */
+  width: 90%;
+  max-width: 450px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between elements inside the popup */
-  animation: slideIn 0.3s ease-out; /* Simple slide-in animation */
+  gap: 20px;
+  animation: slideIn 0.3s ease-out;
 }
 
-/* Popup title */
 .popup h2 {
   margin-top: 0;
   margin-bottom: 15px;
@@ -40,7 +35,6 @@
   font-size: 24px;
 }
 
-/* Close button style */
 .closeButton {
   position: absolute;
   top: 15px;
@@ -51,16 +45,15 @@
   cursor: pointer;
   color: #888;
   padding: 5px;
-  line-height: 1; /* Aligns the 'x' character properly */
+  line-height: 1;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .closeButton:hover {
   color: #333;
-  transform: rotate(90deg); /* Small rotation on hover */
+  transform: rotate(90deg);
 }
 
-/* Styling for each input field group (label + input) */
 .inputGroup {
   display: flex;
   flex-direction: column;
@@ -83,22 +76,17 @@
   font-size: 16px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   width: 100%;
-  box-sizing: border-box; /* Ensures padding and border are included in the element's total width */
+  box-sizing: border-box;
 }
 
-/* Specific styles for the color input */
 .inputGroup input[type="color"] {
-  height: 45px; /* Make the color input larger and easier to click */
-  padding: 0; /* Remove default padding that might affect appearance */
+  height: 45px;
+  padding: 0;
   border: none;
   background: none;
   cursor: pointer;
-  /* Vendor prefixes for cross-browser consistency */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
 }
-/* For Firefox, which sometimes has different default styles for color input */
+
 .inputGroup input[type="color"]::-moz-color-swatch {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -108,9 +96,8 @@
   border-radius: 4px;
 }
 
-/* Submit button style */
 .submitButton {
-  background-color: #007bff; /* Primary blue color */
+  background-color: #007bff; 
   color: white;
   padding: 14px 25px;
   border: none;
@@ -125,8 +112,8 @@
 }
 
 .submitButton:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  transform: translateY(-2px); /* Slight lift on hover */
+  background-color: #0056b3; 
+  transform: translateY(-2px); 
 }
 
 .submitButton:active {
@@ -134,7 +121,6 @@
   transform: translateY(0);
 }
 
-/* Simple animations for a smoother appearance */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -153,4 +139,35 @@
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.functionsCheckBox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  flex-direction: row;
+  gap: 0;
+  padding-bottom: 5px;
+}
+
+.functionItem {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.functionItem label {
+  font-family: sans-serif;
+  font-size: 16px;
+  color: #333;
+  min-width: 80px;
+  text-align: left;
+  padding-right: 10px;
+}
+
+.functionItem input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: #007bff;
+  cursor: pointer;
 }

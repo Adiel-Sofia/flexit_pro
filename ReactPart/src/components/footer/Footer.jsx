@@ -5,7 +5,7 @@ import classes from "./footer.module.css";
  * @returns JSX of component
  */
 export default function Footer() {
-  const date = new Date().getFullYear();
+  const date = new Date().getFullYear(); //current date (year) to show in the footer
 
   return (
     <footer className={classes.footer}>

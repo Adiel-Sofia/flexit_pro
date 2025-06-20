@@ -5,7 +5,13 @@ import { useNavigate } from "react-router-dom";
 import Submit from "../../buttons/submit/Submit";
 import axios from "axios";
 
-function CreateAccount(props) {
+/**
+ * description: CreateAccount component
+ * create a patern for all pages- has header and footer
+ * @returns JSX of component
+ */
+
+function CreateAccount() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -13,8 +19,7 @@ function CreateAccount(props) {
   const [userName, setUserName] = useState("");
   const [userbDate, setBdate] = useState("");
   const [password, setPassword] = useState("");
-  const [show, setShow] = useState(false);
-  const func = props.func;
+  const [show, setShow] = useState(false); //if to show an error msg
   const navigate = useNavigate();
 
   const userToSave = {
@@ -30,13 +35,17 @@ function CreateAccount(props) {
     navigate("/");
   }
 
+  //function to handle the submition - adding user to DB
   function handleSubmit(e) {
     e.preventDefault();
     axios
       .post("user/register", userToSave)
       .then((res) => {
         console.log(res.data);
-        setShow(res.data);
+        if (res.data === false) setShow(true);
+        else {
+          navigateToLogIn();
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -46,6 +55,7 @@ function CreateAccount(props) {
     <div>
       <img className={classes.logo} src={finalLogo} />
       <div className={classes.form_data}>
+        {/* form to add a user */}
         <form className={classes.createAccountForm} onSubmit={handleSubmit}>
           <div className={classes.form__item}>
             <label>Email:</label>

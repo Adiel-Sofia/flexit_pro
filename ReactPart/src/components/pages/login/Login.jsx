@@ -4,6 +4,10 @@ import { useState } from "react";
 import Submit from "../../buttons/submit/Submit";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+/**
+ * description: Login component
+ * @returns JSX of component
+ */
 export default function Login(props) {
   const { func } = props;
   const [email, setEmail] = useState("");
@@ -18,6 +22,7 @@ export default function Login(props) {
     password,
   };
 
+  //function to check the user from DB
   function checkUser(e) {
     e.preventDefault();
     axios
@@ -34,9 +39,8 @@ export default function Login(props) {
       .catch((error) => {
         console.error("Error:", error);
       });
-
-    //
   }
+
   return (
     <div>
       <img className={classes.logo} src={finalLogo} />

@@ -3,12 +3,13 @@ const router = express.Router();
 const dbSingleton = require("../dbSingleton");
 const db = dbSingleton.getConnection();
 
+//getting all the projects data to show in FE
 router.post("/", (req, res) => {
   const email = req.body.email;
 
   const query1 =
-    "SELECT projectName , projectId,owner FROM users_projects NATURAL JOIN projects WHERE email=?";
-  // const query1 = "SELECT projectId FROM users_projects WHERE email=?";
+    "SELECT projectName , projectId,color ,owner FROM users_projects NATURAL JOIN projects WHERE email=?";
+
   db.query(query1, [email], (err, results) => {
     if (err) {
       res.status(500).send(err);
@@ -18,9 +19,11 @@ router.post("/", (req, res) => {
   });
 });
 
+//getting the information of the peojects's functions
 router.post("/functions", (req, res) => {
   const projectId = req.body.functionId;
   console.log(projectId);
+  //get data of a functions based on project id
   const query1 =
     "SELECT *  FROM projects_functions NATURAL JOIN functions where projectId=?";
   db.query(query1, [projectId], (err, results) => {
@@ -30,6 +33,56 @@ router.post("/functions", (req, res) => {
     }
     console.log(results);
     // res.json(results);
+  });
+});
+
+//adiing a new project and the relationship with the user
+router.post("/add", (req, res) => {
+  const projectName = req.body.name;
+  const color = req.body.color;
+  const email = req.body.email;
+
+  const query =
+    "SELECT * from projects  NATURAL JOIN users_projects WHERE projectName=? ";
+  db.query(query, [projectName], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+
+    //checking if project exists
+    if (results.length > 0) {
+      res
+        .status(409)
+        .json({ success: false, message: "Project name already exists." });
+      return;
+    } else {
+      //enter a new project to db
+      const query1 =
+        "INSERT INTO projects (projectName , color, active) VALUES(?,?,?)";
+      db.query(query1, [projectName, color, true], (err, results) => {
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+        //adding to users_project
+        newProjectId = results.insertId;
+        const query2 =
+          "INSERT INTO users_projects (email , projectId, owner) VALUES(?,? ,?)";
+        db.query(query2, [email, newProjectId, true], (err, result) => {
+          if (err) {
+            res.status(500).send(err);
+            return;
+          }
+          console.log(newProjectId);
+          res.status(200).json({
+            success: true,
+            newProjectId: newProjectId,
+            message: "Project added successfully.",
+          });
+        });
+      });
+    }
   });
 });
 

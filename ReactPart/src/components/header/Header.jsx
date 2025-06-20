@@ -4,22 +4,42 @@ import classes from "./header.module.css";
 import finalLogo from "../../assets/finalLogo.png";
 import StateButton from "../buttons/stateButton/StateButton";
 import LogOut from "../buttons/logOut/LogOut";
+import UpdateProfile from "../popUps/updateProfile/UpdateProfile";
 /**
  * description: Header component
  * @returns JSX of component
  */
-function Header(props) {
-  const { logOut } = props;
-  const [userIn, setUserIn] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
 
+function Header(props) {
+  const { logOut, setUpdatePopUp, userIn } = props;
+  //the logOut function to move to the log out button
+  //setUpdatePopUp function to change to true and show the Update pop up- use it on the drop down
+  //user in to show the name of the user
+  const [showDrop, setShowDrop] = useState(false);
   const image_src = "/uploads/woman.png";
+
   return (
     <header className={classes.header}>
       <div className={classes.userWrapper}>
+        {showDrop ? (
+          <div
+            onMouseEnter={() => setShowDrop(true)}
+            onMouseLeave={() => setShowDrop(false)}
+            className={classes.dropdown_container}
+          >
+            <div className={classes.dropdown_menu}>
+              <p onClick={() => setUpdatePopUp(true)}>Update my profile</p>
+              <p>Reset Password</p>
+              <p>My Requests</p>
+            </div>
+          </div>
+        ) : null}
         <div>
-          <img src={image_src} />
+          <img
+            onMouseEnter={() => setShowDrop(true)}
+            onMouseLeave={() => setShowDrop(false)}
+            src={image_src}
+          />
           <LogOut logOut={logOut} />
         </div>
         <div>

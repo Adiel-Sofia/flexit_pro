@@ -1,20 +1,54 @@
 import React, { useState } from "react";
 import classes from "./addProject.module.css";
+import axios from "axios";
 
-export default function AddProject({ isOpen, onClose, onSubmit }) {
+export default function AddProject({ isOpen, onClose }) {
   const [projectName, setProjectName] = useState("");
   const [projectColor, setProjectColor] = useState("#007bff"); // Default to a blue color
-
+  const [projectId, setProjectId] = useState(0);
+  const [modules, setModules] = useState({
+    calendar: false,
+    blog: false,
+    gallery: false,
+    files: false,
+    list: false,
+    charts: false,
+  });
   // If the popup is not open, don't render anything
   if (!isOpen) {
     return null;
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    const projectData = {
+      email: JSON.parse(localStorage.getItem("user")).email,
+      name: projectName,
+      color: projectColor,
+    };
+    e.preventDefault();
 
-    // Call the onSubmit prop with the gathered data
-    onSubmit({ projectName, projectColor });
+    axios
+      .post("project/add", projectData)
+      .then((res) => {
+        console.log("res data", res.data.newProjectId);
+        const functionsData = {
+          email: JSON.parse(localStorage.getItem("user")).email,
+          functions: modules,
+          projectId: res.data.newProjectId,
+        };
+
+        axios
+          .post("function", functionsData)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
 
     // Reset fields and close the popup after submission
     setProjectName("");
@@ -35,7 +69,7 @@ export default function AddProject({ isOpen, onClose, onSubmit }) {
         <form onSubmit={handleSubmit}>
           {/* Project Name Input */}
           <div className={classes.inputGroup}>
-            <label htmlFor="projectName">Project Name:</label>
+            <label>Project Name:</label>
             <input
               type="text"
               id="projectName"
@@ -55,6 +89,74 @@ export default function AddProject({ isOpen, onClose, onSubmit }) {
               value={projectColor}
               onChange={(e) => setProjectColor(e.target.value)}
             />
+          </div>
+
+          {/* check Boxes */}
+          <div className={classes.functionsCheckBox}>
+            <div className={classes.functionItem}>
+              <input
+                onChange={() => {
+                  setModules((prevModules) => ({
+                    ...prevModules,
+                    calendar: !prevModules.calendar,
+                  }));
+                }}
+                type="checkbox"
+              />
+              <label>Calander</label>
+            </div>
+            <div className={classes.functionItem}>
+              <input
+                onChange={() => {
+                  setModules((prevModules) => ({
+                    ...prevModules,
+                    gallery: !prevModules.gallery,
+                  }));
+                }}
+                type="checkbox"
+              />
+              <label>Gallery</label>
+            </div>
+            <div className={classes.functionItem}>
+              <input
+                onChange={() => {
+                  setModules((prevModules) => ({
+                    ...prevModules,
+                    blog: !prevModules.blog,
+                  }));
+                }}
+                type="checkbox"
+              />
+              <label>Blog</label>
+            </div>
+            <div className={classes.functionItem}>
+              <input
+                onChange={() => {
+                  setModules((prevModules) => ({
+                    ...prevModules,
+                    files: !prevModules.files,
+                  }));
+                }}
+                type="checkbox"
+              />
+              <label>Files</label>
+            </div>
+            <div className={classes.functionItem}>
+              <input type="checkbox" />
+              <label>List</label>
+            </div>
+            <div className={classes.functionItem}>
+              <input
+                onChange={() => {
+                  setModules((prevModules) => ({
+                    ...prevModules,
+                    charts: !prevModules.charts,
+                  }));
+                }}
+                type="checkbox"
+              />
+              <label>Charts</label>
+            </div>
           </div>
 
           {/* Submit Button */}

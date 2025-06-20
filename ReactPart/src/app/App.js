@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-// import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Use from "../components/pages/use/Use";
@@ -10,22 +9,29 @@ import Layout from "./Layout";
 import CreateAccount from "../components/pages/createAccount/CreateAccount";
 import NotFound from "../components/pages/notFound/NotFound";
 import Modify from "../components/pages/modify/Modify";
+/**
+ * description: App component
+ * @returns JSX of component
+ */
 
 function App() {
   const [userIn, setUserIn] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
 
+  //functions that handles login- sets the data to local storage ofter login checks
   function reLogin(userToSet) {
     console.log(userToSet);
     localStorage.setItem("user", JSON.stringify(userToSet));
     setUserIn(localStorage.getItem("user"));
   }
 
+
+  //functions handles log out- sets the data in the local storage to null
   function logOut() {
     localStorage.setItem("user", JSON.stringify(null));
     setUserIn(localStorage.getItem("user"));
-    console.clear();
+    console.clear(); //clearing the console
   }
 
   return (

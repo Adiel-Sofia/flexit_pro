@@ -1,6 +1,9 @@
 import classes from "./functions.module.css";
 import { FaCalendarAlt } from "react-icons/fa";
-
+/**
+ * Functions component
+ * @returns JSX of component
+ */
 export default function Function(props) {
   return (
     <div className={classes.wrapper}>
@@ -11,7 +14,6 @@ export default function Function(props) {
       <div className={classes.styleIcon}>
         <FaCalendarAlt />
       </div>
-      <p>name</p>
     </div>
   );
 }

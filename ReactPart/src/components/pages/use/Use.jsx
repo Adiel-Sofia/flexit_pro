@@ -7,6 +7,8 @@ import axios from "axios";
 export default function Use() {
   const [projects, setProjects] = useState([]);
   const [functions, setFunctions] = useState([]);
+
+  //this will happen first thing when we enter the page
   useEffect(() => {
     fetchData();
   }, []);
@@ -43,9 +45,9 @@ export default function Use() {
     <main className="main">
       <div>
         <Projects
-          show={false}
-          getFunctions={getFunctions}
-          projects={projects}
+          show={false} //dont show the plus icon
+          getFunctions={getFunctions} //get functions from db
+          projects={projects} //get projects from DB
         />
       </div>
       <div>

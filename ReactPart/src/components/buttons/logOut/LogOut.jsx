@@ -2,8 +2,8 @@ import classes from "../logOut/logOut.module.css";
 import { useNavigate } from "react-router-dom";
 
 function LogOut(props) {
-  const { logOut } = props;
-  const navigate = useNavigate();
+  const { logOut } = props; //logOut function - get it from header
+  const navigate = useNavigate(); //nevigate to the log in page
 
   function handleLogOut() {
     console.log("getting out");

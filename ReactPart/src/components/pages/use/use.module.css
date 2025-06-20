@@ -1,8 +1,0 @@
-.main {
-  position: relative;
-  padding-top: 60px; /* push content below header */
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  height: calc(100vh - 60px); /* full viewport height minus header */
-}

@@ -30,3 +30,45 @@
   gap: 10px;
   margin-right: 3%;
 }
+
+/* classes.userWrapper */
+.userWrapper {
+  position: relative; /* חיוני! הופך את userWrapper לנקודת הייחוס למיקום אבסולוטי */
+  display: flex; /* אם אתה משתמש ב-flexbox כדי לסדר את האלמנטים בפנים */
+  align-items: center; /* כדי ליישר את התמונה ושם המשתמש */
+  gap: 10px; /* מרווח בין האלמנטים */
+}
+
+/* classes.dropdown_container */
+.dropdown_container {
+  position: absolute; /* מוציא את הדרופדאון מזרימת המסמך הרגילה */
+  top: 50%; /* ממקם את הפינה העליונה-שמאלית של הקונטיינר ב-50% מהגובה של userWrapper */
+  left: 50%; /* ממקם את הפינה העליונה-שמאלית של הקונטיינר ב-50% מהרוחב של userWrapper */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* מזיז את הקונטיינר חזרה בחצי מרוחבו וגובהו, כך שהמרכז שלו יהיה בדיוק ב-50%/50% */
+  z-index: 1000; /* מוודא שהדרופדאון יופיע מעל כל שאר האלמנטים */
+
+  /* אולי תרצה שהדרופדאון יהיה נסתר כברירת מחדל ויוצג רק בעת הצורך */
+  /* display: none; */
+  /* opacity: 0; */
+  /* transition: opacity 0.3s ease; */
+}
+
+/* classes.dropdown_menu */
+.dropdown_menu {
+  background-color: white; /* רקע לבן לתפריט */
+  border: 1px solid #ccc; /* גבול עדין */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל עדין למראה תלת ממדי */
+  padding: 10px;
+  min-width: 180px; /* רוחב מינימלי לתפריט */
+  border-radius: 5px; /* פינות מעוגלות */
+  white-space: nowrap; /* מונע שבירת שורות בטקסט */
+}
+
+/* כדי לוודא שהתמונה ממוקמת נכון בתוך ה-div שלה */
+
+.dropdown_menu p {
+  display: block;
+}

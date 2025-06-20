@@ -7,6 +7,8 @@ export default function Modify() {
   const [projects, setProjects] = useState([]);
   const [functions, setFunctions] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  //this will happen first thing when we enter the page
   useEffect(() => {
     fetchData();
   }, []);
@@ -40,22 +42,21 @@ export default function Modify() {
       });
   }
 
-  const handleCreateProject = (projectData) => {
-    console.log("New project");
-  };
   return (
     <main className="main">
       <div>
+        {/* add project pop up */}
         <AddProject
           isOpen={isPopupOpen} // Controls whether the popup is visible
           onClose={() => setIsPopupOpen(false)} // Function to close the popup
-          onSubmit={handleCreateProject} // Function to handle form submission
         />
+
+        {/* the projects list */}
         <Projects
-          openPopUp={setIsPopupOpen}
-          show={true}
-          getFunctions={getFunctions}
-          projects={projects}
+          openPopUp={setIsPopupOpen} //the functions to change the state og the pop up
+          show={true} //to show the plus button
+          getFunctions={getFunctions} //the function - get the functions from DB
+          projects={projects} //function to get project from DB
         />
       </div>
     </main>
