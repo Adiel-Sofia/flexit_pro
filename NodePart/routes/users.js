@@ -1,3 +1,4 @@
+require("dotenv").config(); // Add this at the very top of your entry file (e.g., app.js or server.js)
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
@@ -7,7 +8,7 @@ const db = dbSingleton.getConnection();
 
 //our email to send from
 const system_mail = "FLEXIT.workspace@gmail.com";
-
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -15,11 +16,6 @@ const transporter = nodemailer.createTransport({
     pass: "xltv loih wpil xhxu",
   },
 });
-
-//api key
-sgMail.setApiKey(
-  "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"
-);
 
 //request to enter a new user to db
 router.post("/register", (req, res) => {
