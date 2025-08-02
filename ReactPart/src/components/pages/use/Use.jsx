@@ -1,6 +1,6 @@
 import "./use.module.css";
 import Projects from "../../projects/Projects";
-import Function from "../../functions/Functions";
+import Function from "../../functions/Function";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -49,9 +49,6 @@ export default function Use() {
           getFunctions={getFunctions} //get functions from db
           projects={projects} //get projects from DB
         />
-      </div>
-      <div>
-        <Function />
       </div>
     </main>
   );

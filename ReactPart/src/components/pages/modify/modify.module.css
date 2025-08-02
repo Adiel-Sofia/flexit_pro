@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  flex-direction: row; /* שיהיו אחד ליד השני */
+  gap: 2rem; /* רווח בין הצדדים, אפשר לשנות לפי הצורך */
+  padding: 1rem;
+}
+
+.projects {
+  flex: 1;
+  max-width: 30%; /* שליטה על גודל - אופציונלי */
+}
+
+.changes {
+  flex: 2;
+  max-width: 70%; /* שליטה על גודל - אופציונלי */
+}
+.functions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* שתי עמודות */
+  gap: 1rem; /* רווח בין הפריטים */
+  padding: 1rem;
+}
+
+/* the style of the input line */
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem;
+}
+
+.textInput {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.textInput:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+  outline: none;
+}
+
+.colorInput {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+
+.saveButton {
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.saveButton:hover {
+  background: linear-gradient(135deg, #43a047, #388e3c);
+  transform: scale(1.02);
+}

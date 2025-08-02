@@ -3,7 +3,7 @@
   top: 0; /* sticky to top of main (which is already below header) */
   margin-left: auto; /* push to right */
   width: 200px;
-  height: 100%; /* take full height of main */
+  height: fit-content;
   padding: 1rem;
   background-color: white;
   border-radius: 8px 0 0 8px;

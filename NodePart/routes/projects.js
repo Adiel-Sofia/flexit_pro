@@ -22,7 +22,7 @@ router.post("/", (req, res) => {
 //getting the information of the peojects's functions
 router.post("/functions", (req, res) => {
   const projectId = req.body.functionId;
-  console.log(projectId);
+
   //get data of a functions based on project id
   const query1 =
     "SELECT *  FROM projects_functions NATURAL JOIN functions where projectId=?";
@@ -31,8 +31,8 @@ router.post("/functions", (req, res) => {
       res.status(500).send(err);
       return;
     }
-    console.log(results);
-    // res.json(results);
+    // console.log(results);
+    res.json(results);
   });
 });
 
@@ -86,4 +86,25 @@ router.post("/add", (req, res) => {
   });
 });
 
+//changing color and name in db
+router.put("/style", (req, res) => {
+  console.log(req.body.name);
+  const projectName = req.body.projectName;
+  const projectId = req.body.projectId;
+  const color = req.body.color;
+
+  const query =
+    "UPDATE projects SET projectName = ? ,color=? WHERE projectId = ?";
+
+  db.query(query, [projectName, color, projectId], (err) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      message: "Project style and name changed successfully.",
+    });
+  });
+});
 module.exports = router;

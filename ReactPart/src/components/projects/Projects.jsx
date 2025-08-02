@@ -15,7 +15,9 @@ export default function Projects(props) {
         <p
           style={{ backgroundColor: el.color }}
           className={classes.proListItem}
-          onClick={() => getFunctions(el.projectId)}
+          onClick={() =>
+            getFunctions({ id: el.projectId, name: el.projectName })
+          }
           key={crypto.randomUUID()}
         >
           {el.projectName}

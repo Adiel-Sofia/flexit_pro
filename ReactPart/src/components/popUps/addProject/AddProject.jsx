@@ -142,7 +142,15 @@ export default function AddProject({ isOpen, onClose }) {
               <label>Files</label>
             </div>
             <div className={classes.functionItem}>
-              <input type="checkbox" />
+              <input
+                onChange={() => {
+                  setModules((prevModules) => ({
+                    ...prevModules,
+                    list: !prevModules.list,
+                  }));
+                }}
+                type="checkbox"
+              />
               <label>List</label>
             </div>
             <div className={classes.functionItem}>

@@ -26,13 +26,43 @@ function App() {
     setUserIn(localStorage.getItem("user"));
   }
 
-
   //functions handles log out- sets the data in the local storage to null
   function logOut() {
-    localStorage.setItem("user", JSON.stringify(null));
-    setUserIn(localStorage.getItem("user"));
-    console.clear(); //clearing the console
+    localStorage.removeItem("user");
+    setUserIn(null);
+    console.clear();
+    window.location.href = "/";
   }
+
+  //Function counts 5 min with no activity and preform logOut
+  function startIdleLogoutTimer(logoutCallback, timeoutMinutes = 5) {
+    let timeout;
+
+    const resetTimer = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        logoutCallback();
+      }, timeoutMinutes * 60 * 1000);
+    };
+
+    const events = ["mousemove", "keydown", "scroll", "click"];
+
+    events.forEach((event) => window.addEventListener(event, resetTimer));
+
+    resetTimer();
+
+    return () => {
+      clearTimeout(timeout);
+      events.forEach((event) => window.removeEventListener(event, resetTimer));
+    };
+  }
+  useEffect(() => {
+    const stopListening = startIdleLogoutTimer(logOut, 5);
+
+    return () => {
+      stopListening();
+    };
+  }, []);
 
   return (
     <div className={classes.app}>

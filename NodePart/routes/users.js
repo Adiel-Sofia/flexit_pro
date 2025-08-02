@@ -1,4 +1,4 @@
-require("dotenv").config(); // Add this at the very top of your entry file (e.g., app.js or server.js)
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
@@ -32,8 +32,9 @@ router.post("/register", (req, res) => {
       return;
     }
     //if a user exists send false so the FE can show err msg
-    if (results.length > 0) flag = false;
-    else {
+    if (results.length > 0) {
+      res.send(false);
+    } else {
       //in case there is no user - enter it to the db
       const query1 =
         "INSERT INTO users (email, userName, password, firstName, lastName, phoneNumber, bDay) VALUES (?,?,?,?,?,?,?)";
@@ -50,8 +51,17 @@ router.post("/register", (req, res) => {
           const mailOptions = {
             from: system_mail,
             to: email,
-            subject: "Sending Email using Node.js",
-            text: "That was easy!",
+            subject: "Thank You for Joining Us!",
+            text: `Hi and welcome!
+
+            Thank you for signing up to our website — we're excited to have you on board.
+            From now on, you'll have access to all the tools, content, and services we offer.
+            If you have any questions or need assistance, feel free to reach out.
+
+          Wishing you a great experience!
+
+          Best regards,  
+          The Team`,
           };
 
           transporter.sendMail(mailOptions, function (error, info) {
@@ -60,26 +70,9 @@ router.post("/register", (req, res) => {
             } else {
               console.log("Email sent: " + info.response);
             }
+
+            return res.status(200).send({ success: true });
           });
-
-          const msg = {
-            to: email,
-            from: system_mail,
-            subject: "Trying",
-            text: "checks if it works",
-            html: "<p>fasdsdxz</p>",
-          };
-
-          //sending email
-          sgMail
-            .send(msg)
-            .then(() => {
-              flag = true;
-              res.send(flag);
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-            });
         }
       );
     }
@@ -125,7 +118,7 @@ router.post("/", (req, res) => {
 //update a user in db
 router.put("/update", (req, res) => {
   const userData = req.body;
-  console.log("in");
+
   //update data of a user in db
   const query =
     "UPDATE users SET userName=? , firstName=?, lastName=? ,phoneNumber=? WHERE email=?";
@@ -144,7 +137,31 @@ router.put("/update", (req, res) => {
         return;
       }
       //dealing with results
-      console.log("success");
+
+      const mailOptions = {
+        from: system_mail,
+        to: userData.email,
+        subject:
+          "Thank You for Updating you informationYour Details Have Been Updated Successfully!",
+        text: `Hi,
+
+          We wanted to let you know that your account details have been successfully updated.
+
+          If you didn’t make this change or believe an unauthorized person has accessed your account, please contact us immediately.
+
+          Thank you for keeping your information up to date!
+
+          Best regards,
+          The Team`,
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          return res.status(200).send({ success: true });
+        }
+      });
     }
   );
 });
