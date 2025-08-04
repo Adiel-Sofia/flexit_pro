@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: row; /* שיהיו אחד ליד השני */
+  gap: 2rem; /* רווח בין הצדדים, אפשר לשנות לפי הצורך */
+  padding: 1rem;
+}
+
+.projects {
+  flex: 1;
+  max-width: 30%;
+}
+.changes {
+  flex: 2;
+  max-width: 70%; /* שליטה על גודל - אופציונלי */
+}
+
+.functions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* שתי עמודות */
+  gap: 1rem; /* רווח בין הפריטים */
+  padding: 1rem;
+}

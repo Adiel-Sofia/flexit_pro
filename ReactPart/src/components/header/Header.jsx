@@ -11,7 +11,7 @@ import UpdateProfile from "../popUps/updateProfile/UpdateProfile";
  */
 
 function Header(props) {
-  const { logOut, setUpdatePopUp, userIn } = props;
+  const { logOut, setUpdatePopUp, userIn, setChangePassPopUp } = props;
   //the logOut function to move to the log out button
   //setUpdatePopUp function to change to true and show the Update pop up- use it on the drop down
   //user in to show the name of the user
@@ -29,7 +29,7 @@ function Header(props) {
           >
             <div className={classes.dropdown_menu}>
               <p onClick={() => setUpdatePopUp(true)}>Update my profile</p>
-              <p>Reset Password</p>
+              <p onClick={() => setChangePassPopUp(true)}>Reset Password</p>
               <p>My Requests</p>
             </div>
           </div>

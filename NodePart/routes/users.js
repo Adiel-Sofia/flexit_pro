@@ -115,6 +115,64 @@ router.post("/", (req, res) => {
   });
 });
 
+//Sending email with number to verify
+router.put("/sendEmail", (req, res) => {
+  const { email, randomNumber } = req.body;
+  const mailOptions = {
+    from: system_mail,
+    to: email,
+    subject: "Your Verification Code",
+    text: `Hi,
+
+          We received a request to verify your identity. To continue, please enter the 4-digit code below on our website:
+
+          🔐 Your code: ${randomNumber}
+
+          If you did not request this code, please ignore this message.
+
+          If you need help or did not initiate this request, feel free to contact our support team.
+
+          Thank you,
+          The Flexit Team`,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+
+    return res.status(200).send({ success: true });
+  });
+});
+
+//changin the password in the db
+router.put("/changePassword", (req, res) => {
+  const { email, oldPass, newPass } = req.body;
+  const query = "SELECT password from users WHERE email=?";
+  db.query(query, [email], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    console.log("blah");
+    console.log(results.password);
+    if (results.password === oldPass) {
+      query1 = "UPDATE users SET password=? WHERE email=?";
+      db.query(query1, [newPass, email], (err, results) => {
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+        res.send(true);
+      });
+    } else {
+      res.send(false);
+    }
+  });
+});
+
 //update a user in db
 router.put("/update", (req, res) => {
   const userData = req.body;
@@ -152,7 +210,7 @@ router.put("/update", (req, res) => {
           Thank you for keeping your information up to date!
 
           Best regards,
-          The Team`,
+          The Flexit Team`,
       };
 
       transporter.sendMail(mailOptions, function (error, info) {

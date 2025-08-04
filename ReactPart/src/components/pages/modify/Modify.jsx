@@ -3,7 +3,7 @@ import Projects from "../../projects/Projects";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddProject from "../../popUps/addProject/AddProject";
-import Function from "../../functions/Function";
+import Function from "../../function/Function";
 export default function Modify() {
   const [projects, setProjects] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
@@ -30,6 +30,7 @@ export default function Modify() {
     if (found) {
       return (
         <Function
+          showChecked={true}
           functionId={found.functionId}
           projectId={currentProject}
           key={found.functionId}
@@ -40,6 +41,7 @@ export default function Modify() {
     } else {
       return (
         <Function
+          showChecked={true}
           functionId={null}
           projectId={currentProject}
           key={type}

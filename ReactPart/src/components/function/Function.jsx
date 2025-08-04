@@ -13,7 +13,7 @@ import axios from "axios";
  * @returns JSX of component
  */
 export default function Function(props) {
-  const { type, active, projectId, functionId } = props;
+  const { type, active, projectId, functionId, showChecked } = props;
   const [activeState, setActiveState] = useState(active);
   const [functionID, setFunctionID] = useState(functionId);
   function handleFunctionCheckBox(functionName) {
@@ -33,36 +33,37 @@ export default function Function(props) {
           console.error("Error:", error);
         });
     } else {
-      
-        const functionsData = {
-          functionId: functionID,
-          state: !activeState,
-        };
-        console.log("here");
-        axios
-          .put("function/updateActive", functionsData)
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      }
-    
+      const functionsData = {
+        functionId: functionID,
+        state: !activeState,
+      };
+      console.log("here");
+      axios
+        .put("function/updateActive", functionsData)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
   }
   return (
     <div className={classes.wrapper}>
-      <div className={classes.checkBoxItem}>
-        <input
-          type="checkbox"
-          checked={activeState}
-          onChange={() => {
-            handleFunctionCheckBox(type);
-            setActiveState((prev) => !prev);
-          }}
-        />
-        <label>{type}</label>
-      </div>
+      {showChecked === true ? (
+        <div className={classes.checkBoxItem}>
+          <input
+            type="checkbox"
+            checked={activeState}
+            onChange={() => {
+              handleFunctionCheckBox(type);
+              setActiveState((prev) => !prev);
+            }}
+          />
+          <label>{type}</label>
+        </div>
+      ) : null}
+
       <div className={classes.styleIcon}>
         {type === "calendar" ? <FaCalendarAlt /> : null}
         {type === "gallery" ? <TfiGallery /> : null}

@@ -28,10 +28,10 @@ function App() {
 
   //functions handles log out- sets the data in the local storage to null
   function logOut() {
-    localStorage.removeItem("user");
-    setUserIn(null);
-    console.clear();
-    window.location.href = "/";
+    localStorage.removeItem("user"); //remove user from local storage so components cant use this information
+    setUserIn(null); //sets user to null so the user can not mpve to different pages
+    console.clear(); //clears the console
+    window.location.href = "/"; //sends to log in page
   }
 
   //Function counts 5 min with no activity and preform logOut
