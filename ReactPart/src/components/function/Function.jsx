@@ -13,7 +13,15 @@ import axios from "axios";
  * @returns JSX of component
  */
 export default function Function(props) {
-  const { type, active, projectId, functionId, showChecked } = props;
+  const {
+    type,
+    active,
+    projectId,
+    functionId,
+    showChecked,
+    setShowFunctions,
+    onClickFunc,
+  } = props;
   const [activeState, setActiveState] = useState(active);
   const [functionID, setFunctionID] = useState(functionId);
   function handleFunctionCheckBox(functionName) {
@@ -26,8 +34,7 @@ export default function Function(props) {
       axios
         .post("function", functionsData)
         .then((res) => {
-          console.log(res.data);
-          setFunctionID(res.data);
+          setFunctionID(res.data.functionId);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -48,6 +55,14 @@ export default function Function(props) {
         });
     }
   }
+
+  function handleClick() {
+    if (!showChecked) {
+      setShowFunctions(false);
+      onClickFunc(type, functionID);
+      console.log("clicked");
+    }
+  }
   return (
     <div className={classes.wrapper}>
       {showChecked === true ? (
@@ -65,12 +80,12 @@ export default function Function(props) {
       ) : null}
 
       <div className={classes.styleIcon}>
-        {type === "calendar" ? <FaCalendarAlt /> : null}
-        {type === "gallery" ? <TfiGallery /> : null}
-        {type === "blog" ? <FaRegPenToSquare /> : null}
-        {type === "files" ? <FaFileArrowUp /> : null}
-        {type === "list" ? <FaListAlt /> : null}
-        {type === "charts" ? <FaChartPie /> : null}
+        {type === "calendar" ? <FaCalendarAlt onClick={handleClick} /> : null}
+        {type === "gallery" ? <TfiGallery onClick={handleClick} /> : null}
+        {type === "blog" ? <FaRegPenToSquare onClick={handleClick} /> : null}
+        {type === "files" ? <FaFileArrowUp onClick={handleClick} /> : null}
+        {type === "list" ? <FaListAlt onClick={handleClick} /> : null}
+        {type === "charts" ? <FaChartPie onClick={handleClick} /> : null}
       </div>
     </div>
   );

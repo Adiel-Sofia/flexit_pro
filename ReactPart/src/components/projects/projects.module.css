@@ -1,14 +1,14 @@
 .container {
   position: sticky;
-  top: 0; /* sticky to top of main (which is already below header) */
-  margin-left: auto; /* push to right */
+  top: 0;
+  margin-left: auto;
   width: 200px;
   height: fit-content;
   padding: 1rem;
   background-color: white;
   border-radius: 8px 0 0 8px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-  overflow-y: auto; /* scroll inside container if needed */
+  overflow-y: auto;
   margin-top: 2%;
 }
 
@@ -41,4 +41,62 @@
 
 .plus:active {
   transform: scale(1);
+}
+.proListItemWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* הכפתור ימוקם מימין */
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.proListItem {
+  margin: 0;
+  cursor: pointer;
+}
+
+.deleteButton {
+  cursor: pointer;
+  color: black;
+  font-size: 20px;
+}
+
+/* Popup */
+.confirmPopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popupContent {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.confirmButton {
+  background-color: red;
+  color: white;
+  padding: 5px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: gray;
+  color: white;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

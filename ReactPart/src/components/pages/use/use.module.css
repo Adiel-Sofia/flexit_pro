@@ -1,14 +1,36 @@
+:root {
+  --header-height: 10px; /* לשנות לגובה האמיתי של ההדר שלך */
+}
+
 .container {
   display: flex;
-  flex-direction: row; /* שיהיו אחד ליד השני */
-  gap: 2rem; /* רווח בין הצדדים, אפשר לשנות לפי הצורך */
+  flex-direction: row;
+  gap: 2rem;
   padding: 1rem;
+
+  /* מתחיל מתחת ל־header */
+  margin-top: var(--header-height);
+  height: calc(100vh - var(--header-height));
 }
 
 .projects {
-  flex: 1;
-  max-width: 30%;
+  /* צמוד לצד ימין */
+  margin-left: auto;
+  flex: 0 0 30%;
+  width: 30%;
+
+  /* נשאר מודבק מתחת ל־header */
+  position: sticky;
+  top: 0;
+
+  /* גלילה פנימית */
+  max-height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+
+  background: #fff;
+  padding: 1rem;
 }
+
 .changes {
   flex: 2;
   max-width: 70%; /* שליטה על גודל - אופציונלי */

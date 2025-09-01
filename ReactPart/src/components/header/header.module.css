@@ -1,3 +1,4 @@
+/* Header main */
 .header {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: flex;
@@ -5,25 +6,42 @@
   justify-content: space-between;
   padding: 2%;
   border-radius: 25px;
+  background-color: #fff;
 }
+
+/* Logo */
 .logo {
   margin: auto;
   width: 200px;
 }
+
+/* User wrapper */
 .userWrapper {
-  display: inline;
+  position: relative; /* חיוני! הופך את userWrapper לנקודת ייחוס */
   display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .userWrapper p {
-  display: inline;
   margin-left: 15%;
+  font-weight: 500;
+  color: #333;
 }
+
 .userWrapper img {
   width: 60px;
   height: 60px;
-  display: inline;
+  border-radius: 50%; /* תמונה עגולה */
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
+
+.userWrapper img:hover {
+  transform: scale(1.1); /* הגדלה קלה בעת ריחוף */
+}
+
+/* Buttons wrapper */
 .buttonsWrapper {
   display: flex;
   flex-direction: column;
@@ -31,44 +49,171 @@
   margin-right: 3%;
 }
 
-/* classes.userWrapper */
-.userWrapper {
-  position: relative; /* חיוני! הופך את userWrapper לנקודת הייחוס למיקום אבסולוטי */
-  display: flex; /* אם אתה משתמש ב-flexbox כדי לסדר את האלמנטים בפנים */
-  align-items: center; /* כדי ליישר את התמונה ושם המשתמש */
-  gap: 10px; /* מרווח בין האלמנטים */
-}
-
-/* classes.dropdown_container */
+/* Dropdown container */
 .dropdown_container {
-  position: absolute; /* מוציא את הדרופדאון מזרימת המסמך הרגילה */
-  top: 50%; /* ממקם את הפינה העליונה-שמאלית של הקונטיינר ב-50% מהגובה של userWrapper */
-  left: 50%; /* ממקם את הפינה העליונה-שמאלית של הקונטיינר ב-50% מהרוחב של userWrapper */
-  transform: translate(
-    -50%,
-    -50%
-  ); /* מזיז את הקונטיינר חזרה בחצי מרוחבו וגובהו, כך שהמרכז שלו יהיה בדיוק ב-50%/50% */
-  z-index: 1000; /* מוודא שהדרופדאון יופיע מעל כל שאר האלמנטים */
-
-  /* אולי תרצה שהדרופדאון יהיה נסתר כברירת מחדל ויוצג רק בעת הצורך */
-  /* display: none; */
-  /* opacity: 0; */
-  /* transition: opacity 0.3s ease; */
+  position: absolute;
+  top: 50px; /* מתחת לתמונה */
+  right: -88px; /* הזזה לימין */
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(-10px);
 }
 
-/* classes.dropdown_menu */
+.userWrapper:hover .dropdown_container {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Dropdown menu */
 .dropdown_menu {
-  background-color: white; /* רקע לבן לתפריט */
-  border: 1px solid #ccc; /* גבול עדין */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל עדין למראה תלת ממדי */
-  padding: 10px;
-  min-width: 180px; /* רוחב מינימלי לתפריט */
-  border-radius: 5px; /* פינות מעוגלות */
-  white-space: nowrap; /* מונע שבירת שורות בטקסט */
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 12px 20px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
-/* כדי לוודא שהתמונה ממוקמת נכון בתוך ה-div שלה */
 
 .dropdown_menu p {
-  display: block;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dropdown_menu p:hover {
+  background-color: #f0f4ff;
+  color: #1a73e8; /* צבע כחול מודגש */
+}
+
+/* Popup overlay - רקע שקוף מעל המסך */
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup window */
+.popup {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  width: 400px;
+  max-height: 450px;
+  overflow-y: auto;
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: slideFade 0.25s ease-in-out;
+}
+
+/* Popup animation */
+@keyframes slideFade {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Popup title */
+.popupTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+}
+
+/* Request row */
+.requestRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  transition: all 0.2s;
+}
+
+.requestRow:hover {
+  background-color: #f1f5ff;
+  transform: translateY(-1px);
+}
+
+/* Request info (project name + email) */
+.requestRow span:first-child {
+  font-weight: 500;
+  color: #222;
+}
+
+.requestRow span:last-child {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Buttons */
+.requestRow div button {
+  margin-left: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.acceptButton {
+  background-color: #3ebd59;
+  color: white;
+}
+
+.acceptButton:hover {
+  background-color: #36a54a;
+}
+
+.denyButton {
+  background-color: #f15656;
+  color: white;
+}
+
+.denyButton:hover {
+  background-color: #da4444;
+}
+
+/* Close button */
+.closeButton {
+  margin-top: 12px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  background-color: #cfcfcf;
 }

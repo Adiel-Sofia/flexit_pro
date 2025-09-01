@@ -34,7 +34,7 @@ router.post("/", (req, res) => {
       }
 
       const functionId = results.insertId;
-      console.log(functionId);
+      console.log("Inserting into projects_functions:", projectId, functionId);
       const query2 =
         "INSERT INTO projects_functions (projectId, functionId) VALUES (?, ?)";
       db.query(query2, [projectId, functionId], (err) => {
@@ -65,6 +65,7 @@ router.post("/", (req, res) => {
 
           if (completed === trueTypes.length) {
             return res.status(200).json({
+              functionId: functionId,
               success: true,
               message: "All functions added successfully.",
             });
@@ -79,6 +80,7 @@ router.post("/", (req, res) => {
 router.put("/updateActive", (req, res) => {
   const functionId = req.body.functionId;
   const state = req.body.state;
+  console.log("we enter: ", state, functionId);
   const query = "UPDATE functions  SET active = ? WHERE functionId = ?";
   db.query(query, [state, functionId], (err) => {
     if (err) {

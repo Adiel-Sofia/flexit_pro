@@ -8,9 +8,12 @@ export default function Modify() {
   const [projects, setProjects] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
   const [choosePro, setChoosePro] = useState(false);
+  const [sharePopUp, setSharePopUp] = useState(false);
   const [functions, setFunctions] = useState([]);
   const [color, setColor] = useState("#002255");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [shareEmail, setShareEmail] = useState("");
+  const [errMSG, setErrMSG] = useState(false);
   const functionsType = [
     "calendar",
     "blog",
@@ -19,6 +22,29 @@ export default function Modify() {
     "list",
     "charts",
   ];
+
+  function handleShare(proId) {
+    if (!shareEmail) return alert("Please enter an email");
+    const dataToSend = {
+      projectName: currentProject.projectName,
+      projectId: currentProject.id,
+      fromEmail: JSON.parse(localStorage.getItem("user")).email,
+      toEmail: shareEmail,
+    };
+    axios
+      .post("project/share", dataToSend)
+      .then((res) => {
+        if (!res.data) {
+          setErrMSG(true);
+        } else {
+          setSharePopUp(false);
+          setShareEmail("");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 
   //fetching projects data
   useEffect(() => {
@@ -30,6 +56,8 @@ export default function Modify() {
     if (found) {
       return (
         <Function
+          onClickFunc={() => {}}
+          setShowFunctions={() => {}}
           showChecked={true}
           functionId={found.functionId}
           projectId={currentProject}
@@ -52,7 +80,7 @@ export default function Modify() {
     }
   });
 
-  const fetchData = () => {
+  function fetchData() {
     const emailOfUser = JSON.parse(localStorage.getItem("user")).email;
     const userToSend = {
       email: emailOfUser,
@@ -65,7 +93,7 @@ export default function Modify() {
       .catch((error) => {
         console.error("Error:", error);
       });
-  };
+  }
 
   function getFunctions(project) {
     setChoosePro(true);
@@ -126,6 +154,11 @@ export default function Modify() {
               Save
             </button>
           </div>
+          <div>
+            <button onClick={setSharePopUp} className={classes.shareButton}>
+              Send Share Request
+            </button>
+          </div>
           <div className={classes.functions}>{allFunctionComponents}</div>
         </div>
       ) : (
@@ -140,12 +173,48 @@ export default function Modify() {
           onClose={() => setIsPopupOpen(false)}
         />
         <Projects
+          fetchData={fetchData}
           openPopUp={setIsPopupOpen}
           show={true}
           getFunctions={getFunctions}
           projects={projects}
         />
       </div>
+      {sharePopUp && (
+        <div className={classes.overlay}>
+          <div className={classes.popup}>
+            <h3>Share Project</h3>
+            <input
+              type="email"
+              placeholder="Enter user email"
+              value={shareEmail}
+              onChange={(e) => setShareEmail(e.target.value)}
+              className={classes.input}
+            />
+            {errMSG ? (
+              <p>
+                The email you are looking for does not exists in the system,
+                please try again
+              </p>
+            ) : null}
+
+            <div className={classes.buttons}>
+              <button onClick={handleShare} className={classes.shareBtn}>
+                Share
+              </button>
+              <button
+                onClick={() => {
+                  setSharePopUp(false);
+                  setShareEmail("");
+                }}
+                className={classes.cancelBtn}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

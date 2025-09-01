@@ -1,0 +1,100 @@
+/* container עוטף את כל הקומפוננטה */
+
+/* כותרת + אייקון */
+.calendar_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #222;
+}
+
+/* אייקון הוספה */
+.add_icon {
+  cursor: pointer;
+  font-size: 2.5rem;
+  color: #31566f;
+  transition: transform 0.2s;
+}
+
+.add_icon:hover {
+  transform: scale(1.25);
+  color: #31566f;
+}
+
+/* div של הקלנדר */
+.calendar_body {
+  height: 650px; /* מעט יותר גבוה */
+  width: 100%;
+  background-color: #ffffff; /* קלנדר לבן */
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+.popup_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 400px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.popup h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.popup label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.popup input[type="text"],
+.popup input[type="datetime-local"] {
+  width: 100%;
+  padding: 7px 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.popup_buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.popup_buttons button {
+  padding: 7px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.popup_buttons button[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.popup_buttons button[type="button"] {
+  background-color: #ccc;
+  color: #222;
+}

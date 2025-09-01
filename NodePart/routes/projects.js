@@ -6,13 +6,18 @@ const db = dbSingleton.getConnection();
 //getting all the projects data to show in FE
 router.post("/", (req, res) => {
   const email = req.body.email;
+  const query1 = `
+  SELECT p.projectId, p.projectName, p.color, up.owner
+  FROM users_projects up
+  JOIN projects p ON up.projectId = p.projectId
+  WHERE up.email = ?
+    AND p.active = ?;
+`;
 
-  const query1 =
-    "SELECT projectName , projectId,color ,owner FROM users_projects NATURAL JOIN projects WHERE email=?";
-
-  db.query(query1, [email], (err, results) => {
+  db.query(query1, [email, 1], (err, results) => {
     if (err) {
-      res.status(500).send(err);
+      console.error("DB Error:", err);
+      res.status(500).json({ error: err.message });
       return;
     }
     res.json(results);
@@ -24,9 +29,14 @@ router.post("/functions", (req, res) => {
   const projectId = req.body.functionId;
 
   //get data of a functions based on project id
+
   const query1 =
-    "SELECT *  FROM projects_functions NATURAL JOIN functions where projectId=?";
-  db.query(query1, [projectId], (err, results) => {
+    "SELECT * " +
+    "FROM projects_functions pf " +
+    "JOIN functions f ON pf.functionId = f.functionId " +
+    "WHERE pf.projectId = ? AND f.active = ?";
+
+  db.query(query1, [projectId, 1], (err, results) => {
     if (err) {
       res.status(500).send(err);
       return;
@@ -107,4 +117,54 @@ router.put("/style", (req, res) => {
     });
   });
 });
+
+router.put("/delete", (req, res) => {
+  const projectId = req.body.projectId;
+  console.log(projectId);
+  const query = "UPDATE projects SET active = ?  WHERE projectId = ?";
+  db.query(query, [0, projectId], (err) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      message: "Project active changed successfully.",
+    });
+  });
+});
+
+router.post("/share", (req, res) => {
+  const projectId = req.body.projectId;
+  const fromEmail = req.body.fromEmail;
+  const toEmail = req.body.toEmail;
+  const projectName = req.body.projectName;
+  const query = "SELECT * FROM users WHERE email=?";
+  db.query(query, [toEmail], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    //dealing with results - if there is a user send the details , if not send null
+    if (results[0]) {
+      const query1 =
+        "INSERT INTO requests (fromUser , toUser , projectId , active, projectName)  values ( ?,?,?,?,?)";
+
+      db.query(
+        query1,
+        [fromEmail, toEmail, projectId, 1, projectName],
+        (err, results) => {
+          if (err) {
+            res.status(500).send(err);
+            return;
+          }
+          res.json(true);
+        }
+      );
+    } else {
+      res.json(false);
+    }
+  });
+});
+
 module.exports = router;
