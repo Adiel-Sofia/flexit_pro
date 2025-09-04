@@ -34,9 +34,9 @@ router.post("/functions", (req, res) => {
     "SELECT * " +
     "FROM projects_functions pf " +
     "JOIN functions f ON pf.functionId = f.functionId " +
-    "WHERE pf.projectId = ? AND f.active = ?";
+    "WHERE pf.projectId = ? ";
 
-  db.query(query1, [projectId, 1], (err, results) => {
+  db.query(query1, [projectId], (err, results) => {
     if (err) {
       res.status(500).send(err);
       return;

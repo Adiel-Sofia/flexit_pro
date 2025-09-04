@@ -12,6 +12,7 @@ const eventsRoutes = require("./routes/events");
 const picturesRoutes = require("./routes/pictures");
 const filesRoutes = require("./routes/files");
 const requestsRoutes = require("./routes/requests");
+const listsRoutes = require("./routes/lists");
 const port = 8801;
 app.use("/uploads", express.static("uploads")); // Distributing uploaded files
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use("/events", eventsRoutes);
 app.use("/pictures", picturesRoutes);
 app.use("/files", filesRoutes);
 app.use("/requests", requestsRoutes);
+app.use("/lists", listsRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err); // Log error

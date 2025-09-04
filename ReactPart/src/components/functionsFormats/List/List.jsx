@@ -1,31 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./list.module.css";
+import { MdEdit, MdDelete } from "react-icons/md";
+import axios from "axios";
 
-const List = ({ title, initialItems }) => {
+const List = ({ listId, title, initialItems, getListsData }) => {
   const [items, setItems] = useState(initialItems || []);
   const [newItem, setNewItem] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showEmptyWarning, setShowEmptyWarning] = useState(false);
+  useEffect(() => {
+    setItems(initialItems || []);
+  }, [initialItems]);
 
+  function removeItem() {}
   const addItem = () => {
-    if (newItem.trim() === "") return;
-    setItems([...items, { text: newItem, completed: false }]);
-    setNewItem("");
-  };
+    if (!newItem.trim()) {
+      setShowEmptyWarning(true);
+      return;
+    }
 
-  const toggleComplete = (index) => {
-    const updatedItems = items.map((item, i) =>
-      i === index ? { ...item, completed: !item.completed } : item
-    );
-    setItems(updatedItems);
+    axios
+      .post("/lists/itemAddition", { listId, text: newItem })
+      .then(() => {
+        setNewItem("");
+        console.log("before refresh");
+        getListsData();
+      })
+      .catch((error) => console.error("Error in /lists/itemAddition:", error));
   };
-
-  const removeItem = (index) => {
-    const updatedItems = items.filter((_, i) => i !== index);
-    setItems(updatedItems);
-  };
+  function handleDeleteList(listIdToDelete) {
+    axios
+      .delete(`/lists/delete/${listIdToDelete}`)
+      .then((res) => {
+        getListsData();
+        console.log(res.data);
+      })
+      .catch((error) => console.error("Error in /lists:", error));
+  }
 
   return (
     <div className={classes.list_container}>
-      <h2>{title}</h2>
+      <h2>
+        {title}
+        <MdDelete onClick={() => setShowConfirm(true)} />
+      </h2>
+
       <div className={classes.input_section}>
         <input
           type="text"
@@ -33,16 +52,57 @@ const List = ({ title, initialItems }) => {
           onChange={(e) => setNewItem(e.target.value)}
           placeholder="Enter new Item"
         />
-        <button onClick={addItem}>הוסף</button>
+        <button onClick={addItem}>Add</button>
       </div>
       <ul>
         {items.map((item, index) => (
-          <li key={index} className={item.completed ? "completed" : ""}>
-            <span onClick={() => toggleComplete(index)}>{item.text}</span>
+          <li key={index} className={classes.item}>
+            <span>{item.text}</span>
             <button onClick={() => removeItem(index)}>Delete</button>
           </li>
         ))}
       </ul>
+
+      {showConfirm && (
+        <div className={classes.modal_overlay}>
+          <div className={classes.modal}>
+            <p>Are you sure you want to delete this list?</p>
+            <div className={classes.modal_actions}>
+              <button
+                className={classes.cancel_btn}
+                onClick={() => setShowConfirm(false)}
+              >
+                cancel
+              </button>
+              <button
+                className={classes.delete_btn}
+                onClick={() => {
+                  handleDeleteList(listId);
+                  setShowConfirm(false);
+                }}
+              >
+                delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* פופאפ להוספת פריט ריק */}
+      {showEmptyWarning && (
+        <div className={classes.modal_overlay}>
+          <div className={classes.modal}>
+            <p>Cannot add empty item</p>
+            <div className={classes.modal_actions}>
+              <button
+                className={classes.cancel_btn}
+                onClick={() => setShowEmptyWarning(false)}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

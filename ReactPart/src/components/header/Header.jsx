@@ -31,7 +31,22 @@ function Header(props) {
         console.error("Error:", error);
       });
   }
-  function acceptRequest(requestId) {}
+  function acceptRequest(requestId, projectId) {
+    const requestToUpdate = {
+      requestId: requestId,
+      email: JSON.parse(localStorage.getItem("user")).email,
+      projectId: projectId,
+    };
+
+    axios
+      .put("requests/accept", requestToUpdate)
+      .then((res) => {
+        handleRequests();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
   function handleRequests() {
     const emailOfUser = JSON.parse(localStorage.getItem("user")).email;
     const userToSend = {
@@ -44,6 +59,7 @@ function Header(props) {
           projectName: item.projectName,
           email: item.fromUser,
           requestId: item.requestId,
+          projectId: item.projectId,
         }));
         setAllRequests(requestsFromDB);
       })
@@ -103,7 +119,7 @@ function Header(props) {
                 <div>
                   <button
                     className={classes.acceptButton}
-                    onClick={() => acceptRequest(req.requestId)}
+                    onClick={() => acceptRequest(req.requestId, req.projectId)}
                   >
                     Accept
                   </button>

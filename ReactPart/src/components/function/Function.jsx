@@ -25,6 +25,7 @@ export default function Function(props) {
   const [activeState, setActiveState] = useState(active);
   const [functionID, setFunctionID] = useState(functionId);
   function handleFunctionCheckBox(functionName) {
+    console.log(functionID);
     if (functionID === null) {
       const functionsData = {
         email: JSON.parse(localStorage.getItem("user")).email,

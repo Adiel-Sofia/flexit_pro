@@ -7,9 +7,10 @@ import CalendarFunc from "../../functionsFormats/calendar/CalendarFunc";
 import Blog from "../../functionsFormats/blog/Blog";
 import ImageGallery from "../../functionsFormats/imageGallery/ImageGallery";
 import Files from "../../functionsFormats/files/Files";
-import List from "../../functionsFormats/List/List";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
 import BlogList from "../../functionsFormats/blogList/BlogList";
+import AllList from "../../functionsFormats/allLists/AllLists";
+
 
 export default function Use() {
   const [projects, setProjects] = useState([]);
@@ -46,21 +47,24 @@ export default function Use() {
     setShowFiles(false);
     setShowGallery(false);
   }
-  const allFunctionComponents = functions.map((el) => {
-    return (
-      <Function
-        onClickFunc={onClickFunc}
-        setShowFunctions={setShowFunctions}
-        showChecked={false}
-        functionId={el.functionId}
-        projectId={currentProject}
-        key={el.functionId}
-        type={el.type}
-        active={el.active}
-      />
-    );
-  });
 
+  const allFunctionComponents = functions.map((el) => {
+    if (el.active == 1) {
+      return (
+        <Function
+          onClickFunc={onClickFunc}
+          setShowFunctions={setShowFunctions}
+          showChecked={false}
+          functionId={el.functionId}
+          projectId={currentProject}
+          key={el.functionId}
+          type={el.type}
+          active={el.active}
+        />
+      );
+    }
+    return null;
+  });
   const fetchData = () => {
     const emailOfUser = JSON.parse(localStorage.getItem("user")).email;
     const userToSend = {
@@ -94,24 +98,6 @@ export default function Use() {
       });
   }
   //this is fake data - delete at the end
-
-  const images = [
-    {
-      src: "/uploads/pictures/pexels-baskincreativeco-1766838.jpg",
-      alt: "Image 1",
-    },
-    { src: "https://picsum.photos/200/150?random=2", alt: "Image 2" },
-    { src: "https://picsum.photos/200/150?random=3", alt: "Image 3" },
-    { src: "https://picsum.photos/200/150?random=4", alt: "Image 4" },
-    { src: "https://picsum.photos/200/150?random=5", alt: "Image 5" },
-    { src: "https://picsum.photos/200/150?random=6", alt: "Image 6" },
-  ];
-
-  const all_files = [
-    { name: "Document 1", url: "https://example.com/file1.pdf" },
-    { name: "Image 1", url: "https://example.com/image1.jpg" },
-    { name: "Text file", url: "https://example.com/file2.txt" },
-  ];
 
   const initialList = [
     { text: "לסיים את התרגיל", completed: false },
@@ -156,8 +142,7 @@ export default function Use() {
 
       {showLists ? (
         <div>
-          <List title="רשימת מטלות" initialItems={initialList} />
-          <List title="רשימת מטלות" initialItems={initialList} />
+          <AllList functionId={currentFunction} />
         </div>
       ) : null}
       <div className={classes.projects}>
