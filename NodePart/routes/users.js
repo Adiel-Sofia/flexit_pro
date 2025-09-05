@@ -158,7 +158,7 @@ router.put("/changePassword", (req, res) => {
     }
     console.log("blah");
     console.log(results.password);
-    if (results.password === oldPass) {
+    if (results[0] && results[0].password === oldPass) {
       query1 = "UPDATE users SET password=? WHERE email=?";
       db.query(query1, [newPass, email], (err, results) => {
         if (err) {

@@ -10,8 +10,8 @@ const db = dbSingleton.getConnection();
 //     SELECT l.listId, l.listName, li.content
 //     FROM list_function lf
 //     JOIN list l ON lf.listId = l.listId
-//     JOIN list_listitem lli ON l.listId = lli.listId
-//     JOIN listitem li ON lli.listItemId = li.listItemId
+//     LEFT JOIN list_listitem lli ON l.listId = lli.listId
+//     LEFT JOIN listitem li ON lli.listItemId = li.listItemId
 //     WHERE lf.functionId = ?
 //     ORDER BY l.listId, li.listItemId
 //   `;
@@ -38,17 +38,20 @@ const db = dbSingleton.getConnection();
 //         listsArray.push(listObj);
 //       }
 
-//       listObj.items.push({ text: row.content, completed: false });
+//       if (row.content) {
+//         listObj.items.push({ text: row.content, completed: false });
+//       }
 //     });
 
 //     res.json(listsArray);
 //   });
 // });
+
 router.post("/", (req, res) => {
   const functionId = req.body.functionId;
 
   const query = `
-    SELECT l.listId, l.listName, li.content
+    SELECT l.listId, l.listName, li.listItemId, li.content
     FROM list_function lf
     JOIN list l ON lf.listId = l.listId
     LEFT JOIN list_listitem lli ON l.listId = lli.listId
@@ -66,11 +69,9 @@ router.post("/", (req, res) => {
     const listsArray = [];
 
     results.forEach((row) => {
-      // מחפשים אם הרשימה כבר קיימת במערך
       let listObj = listsArray.find((l) => l.listId === row.listId);
 
       if (!listObj) {
-        // אם לא קיימת, יוצרים אובייקט חדש ומוסיפים למערך
         listObj = {
           listId: row.listId,
           title: row.listName,
@@ -79,15 +80,17 @@ router.post("/", (req, res) => {
         listsArray.push(listObj);
       }
 
-      if (row.content) {
-        listObj.items.push({ text: row.content, completed: false });
+      if (row.listItemId) {
+        listObj.items.push({
+          listItemId: row.listItemId,
+          text: row.content,
+        });
       }
     });
 
     res.json(listsArray);
   });
 });
-
 router.delete("/delete/:listId", (req, res) => {
   const listId = req.params.listId;
 
@@ -184,6 +187,28 @@ router.post("/itemAddition", (req, res) => {
       }
 
       res.send({ success: true, listItemId: newItemId });
+    });
+  });
+});
+
+router.delete("/itemDelete/:listItemId", (req, res) => {
+  const listItemId = req.params.listItemId;
+
+  const deleteLinkQuery = "DELETE FROM list_listitem WHERE listItemId = ?";
+  db.query(deleteLinkQuery, [listItemId], (err) => {
+    if (err) {
+      console.error("DB error deleting link:", err);
+      return res.status(500).send(err);
+    }
+
+    const deleteItemQuery = "DELETE FROM listitem WHERE listItemId = ?";
+    db.query(deleteItemQuery, [listItemId], (err2) => {
+      if (err2) {
+        console.error("DB error deleting item:", err2);
+        return res.status(500).send(err2);
+      }
+
+      res.json({ success: true });
     });
   });
 });

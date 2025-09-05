@@ -10,7 +10,8 @@ import Files from "../../functionsFormats/files/Files";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
 import BlogList from "../../functionsFormats/blogList/BlogList";
 import AllList from "../../functionsFormats/allLists/AllLists";
-
+import Contact from "../../functionsFormats/contact/Contact";
+import AllContacts from "../../functionsFormats/allContacts/AllContacts";
 
 export default function Use() {
   const [projects, setProjects] = useState([]);
@@ -22,7 +23,7 @@ export default function Use() {
   const [showFunctions, setShowFunctions] = useState(true);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showBlog, setShowBlog] = useState(false);
-  const [showCharts, setShowCharts] = useState(false);
+  const [showContacts, setShowContacts] = useState(false);
   const [showLists, setShowLists] = useState(false);
   const [showFiles, setShowFiles] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
@@ -37,12 +38,13 @@ export default function Use() {
     if (type === "gallery") setShowGallery(true);
     if (type === "files") setShowFiles(true);
     if (type === "list") setShowLists(true);
+    if (type === "contacts") setShowContacts(true);
   }
   function handleGoBack() {
     setShowFunctions(true);
     setShowCalendar(false);
     setShowBlog(false);
-    setShowCharts(false);
+    setShowContacts(false);
     setShowLists(false);
     setShowFiles(false);
     setShowGallery(false);
@@ -97,13 +99,7 @@ export default function Use() {
         console.error("Error:", error);
       });
   }
-  //this is fake data - delete at the end
 
-  const initialList = [
-    { text: "לסיים את התרגיל", completed: false },
-    { text: "ללכת לסופר", completed: true },
-  ];
-  //
   return (
     <main className={classes.container}>
       {showFunctions ? (
@@ -145,6 +141,12 @@ export default function Use() {
           <AllList functionId={currentFunction} />
         </div>
       ) : null}
+      {showContacts ? (
+        <div>
+          <AllContacts functionId={currentFunction} />
+        </div>
+      ) : null}
+
       <div className={classes.projects}>
         <Projects
           show={false} //dont show the plus icon

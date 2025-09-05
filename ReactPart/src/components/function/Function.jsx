@@ -4,7 +4,7 @@ import { TfiGallery } from "react-icons/tfi";
 import { FaRegPenToSquare } from "react-icons/fa6";
 import { FaFileArrowUp } from "react-icons/fa6";
 import { FaListAlt } from "react-icons/fa";
-import { FaChartPie } from "react-icons/fa6";
+import { MdPermContactCalendar } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -86,7 +86,9 @@ export default function Function(props) {
         {type === "blog" ? <FaRegPenToSquare onClick={handleClick} /> : null}
         {type === "files" ? <FaFileArrowUp onClick={handleClick} /> : null}
         {type === "list" ? <FaListAlt onClick={handleClick} /> : null}
-        {type === "charts" ? <FaChartPie onClick={handleClick} /> : null}
+        {type === "contacts" ? (
+          <MdPermContactCalendar onClick={handleClick} />
+        ) : null}
       </div>
     </div>
   );

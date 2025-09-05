@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import classes from "./addProject.module.css";
 import axios from "axios";
 
-export default function AddProject({ isOpen, onClose }) {
+export default function AddProject({ isOpen, onClose, fetchData }) {
   const [projectName, setProjectName] = useState("");
   const [projectColor, setProjectColor] = useState("#007bff"); // Default to a blue color
   const [projectId, setProjectId] = useState(0);
@@ -12,7 +12,7 @@ export default function AddProject({ isOpen, onClose }) {
     gallery: false,
     files: false,
     list: false,
-    charts: false,
+    contacts: false,
   });
   // If the popup is not open, don't render anything
   if (!isOpen) {
@@ -40,6 +40,7 @@ export default function AddProject({ isOpen, onClose }) {
         axios
           .post("function", functionsData)
           .then((res) => {
+            fetchData();
             console.log(res.data);
           })
           .catch((error) => {
@@ -158,16 +159,15 @@ export default function AddProject({ isOpen, onClose }) {
                 onChange={() => {
                   setModules((prevModules) => ({
                     ...prevModules,
-                    charts: !prevModules.charts,
+                    contacts: !prevModules.contacts,
                   }));
                 }}
                 type="checkbox"
               />
-              <label>Charts</label>
+              <label>contacts</label>
             </div>
           </div>
 
-          {/* Submit Button */}
           <button type="submit" className={classes.submitButton}>
             Create Project
           </button>

@@ -24,7 +24,7 @@ export default function ChangePassword(props) {
       randomNumber: generatedNumber,
     };
     axios
-      .put("user/sendEmail", dataToSend)
+      .put("/user/sendEmail", dataToSend)
       .then((res) => {
         console.log("Email has been sent");
       })
@@ -45,7 +45,7 @@ export default function ChangePassword(props) {
       };
       if (newPassword1 === newPassword2) {
         axios
-          .put("user/changePassword", userToUpdate)
+          .put("/user/changePassword", userToUpdate)
           .then((res) => {
             if (res) setChangePassPopUp(false);
             else {

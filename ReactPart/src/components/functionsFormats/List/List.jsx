@@ -12,7 +12,14 @@ const List = ({ listId, title, initialItems, getListsData }) => {
     setItems(initialItems || []);
   }, [initialItems]);
 
-  function removeItem() {}
+  function removeItem(listItemId) {
+    axios
+      .delete(`/lists/itemDelete/${listItemId}`)
+      .then(() => {
+        getListsData();
+      })
+      .catch((error) => console.error("Error in /lists/itemDelete:", error));
+  }
   const addItem = () => {
     if (!newItem.trim()) {
       setShowEmptyWarning(true);
@@ -56,9 +63,9 @@ const List = ({ listId, title, initialItems, getListsData }) => {
       </div>
       <ul>
         {items.map((item, index) => (
-          <li key={index} className={classes.item}>
+          <li key={item.listItemId} className={classes.item}>
             <span>{item.text}</span>
-            <button onClick={() => removeItem(index)}>Delete</button>
+            <button onClick={() => removeItem(item.listItemId)}>Delete</button>
           </li>
         ))}
       </ul>

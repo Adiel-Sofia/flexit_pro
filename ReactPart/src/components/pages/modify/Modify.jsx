@@ -20,7 +20,7 @@ export default function Modify() {
     "gallery",
     "files",
     "list",
-    "charts",
+    "contacts",
   ];
 
   function handleShare(proId) {
@@ -169,6 +169,7 @@ export default function Modify() {
 
       <div className={classes.projects}>
         <AddProject
+          fetchData={fetchData}
           isOpen={isPopupOpen}
           onClose={() => setIsPopupOpen(false)}
         />
