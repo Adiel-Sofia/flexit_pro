@@ -27,6 +27,7 @@ export default function Use() {
   const [showLists, setShowLists] = useState(false);
   const [showFiles, setShowFiles] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
+
   //this will happen first thing when we enter the page
   useEffect(() => {
     fetchData();

@@ -7,8 +7,15 @@ const db = dbSingleton.getConnection();
 router.post("/", (req, res) => {
   const email = req.body.email;
   const functions = req.body.functions;
-  const projectId = req.body.projectId;
-
+  const projectId = req.body.projectId.id;
+  console.log(
+    "email:",
+    email,
+    " functions:",
+    functions,
+    " projectId: ",
+    projectId
+  );
   const types = Object.keys(functions);
   const trueTypes = types.filter((key) => functions[key] === true);
 
@@ -45,7 +52,7 @@ router.post("/", (req, res) => {
             .status(500)
             .send("Error inserting to projects_functions: " + err.message);
         }
-
+        console.log("sedond query pass");
         const query3 = `
           INSERT INTO users_funcitons 
           (email, functionId, ownerFunction, readPermission, writePermission) 
@@ -60,7 +67,7 @@ router.post("/", (req, res) => {
               .status(500)
               .send("Error inserting to users_funcitons: " + err.message);
           }
-
+          console.log("third query pass");
           completed++;
 
           if (completed === trueTypes.length) {

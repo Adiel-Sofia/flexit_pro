@@ -12,7 +12,13 @@ import UpdateProfile from "../popUps/updateProfile/UpdateProfile";
  */
 
 function Header(props) {
-  const { logOut, setUpdatePopUp, userIn, setChangePassPopUp } = props;
+  const {
+    logOut,
+    setUpdatePopUp,
+    userIn,
+    setChangePassPopUp,
+    setUpdateProInUse,
+  } = props;
   const [showDrop, setShowDrop] = useState(false);
   const [showRequests, setShowRequests] = useState(false);
   const [allRequests, setAllRequests] = useState([]);

@@ -24,9 +24,10 @@ export default function Modify() {
   ];
 
   function handleShare(proId) {
+    console.log(currentProject);
     if (!shareEmail) return alert("Please enter an email");
     const dataToSend = {
-      projectName: currentProject.projectName,
+      projectName: currentProject.name,
       projectId: currentProject.id,
       fromEmail: JSON.parse(localStorage.getItem("user")).email,
       toEmail: shareEmail,

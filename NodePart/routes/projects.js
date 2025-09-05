@@ -139,6 +139,10 @@ router.post("/share", (req, res) => {
   const fromEmail = req.body.fromEmail;
   const toEmail = req.body.toEmail;
   const projectName = req.body.projectName;
+  console.log("projectId:", projectId);
+  console.log("fromEmail:", fromEmail);
+  console.log("toEmail:", toEmail);
+  console.log("projectName:", projectName);
   const query = "SELECT * FROM users WHERE email=?";
   db.query(query, [toEmail], (err, results) => {
     if (err) {
