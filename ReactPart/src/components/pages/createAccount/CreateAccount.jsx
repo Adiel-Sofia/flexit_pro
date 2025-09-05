@@ -22,6 +22,28 @@ function CreateAccount() {
   const [show, setShow] = useState(false); //if to show an error msg
   const navigate = useNavigate();
 
+  const today = new Date();
+  const minAge = 10; // גיל מינימום
+  const maxAge = 100; // גיל מקסימום
+
+  // תאריך מקסימלי (מי שנולד עד לפני 10 שנים)
+  const maxDate = new Date(
+    today.getFullYear() - minAge,
+    today.getMonth(),
+    today.getDate()
+  )
+    .toISOString()
+    .split("T")[0];
+
+  // תאריך מינימלי (מי שנולד לפני יותר מ־100 שנים)
+  const minDate = new Date(
+    today.getFullYear() - maxAge,
+    today.getMonth(),
+    today.getDate()
+  )
+    .toISOString()
+    .split("T")[0];
+
   const userToSave = {
     email,
     firstName,
@@ -120,6 +142,8 @@ function CreateAccount() {
               type="date"
               required
               value={userbDate}
+              min={minDate} // אי אפשר לבחור תאריך ישן יותר מגיל 100
+              max={maxDate} // אי אפשר לבחור תאריך צעיר יותר מגיל 10
               onChange={(e) => setBdate(e.target.value)}
             />
           </div>

@@ -76,20 +76,54 @@ function fileFilter(req, file, cb) {
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // נתיב העלאת תמונה
+// router.post("/uploads", upload.single("file"), (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ error: "no files uploaded" });
+//   }
+
+//   const functionId = req.body.functionId; // מגיע מהבקשה (axios/FormData)
+//   if (!functionId) {
+//     return res.status(400).json({ error: "fileId is required" });
+//   }
+
+//   const fileName = req.file.filename;
+
+//   const query = "INSERT INTO files (fileName) VALUES (?)";
+//   db.query(query, [fileName], (err, result) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).json({ err });
+//     }
+
+//     const fileId = result.insertId;
+
+//     const query1 =
+//       "INSERT INTO functions_files (functionId, fileId) VALUES (?, ?)";
+//     db.query(query1, [functionId, fileId], (err2) => {
+//       if (err2) {
+//         console.error("Err:", err2);
+//         return res.status(500).json({ err2 });
+//       }
+
+//       res.send(true);
+//     });
+//   });
+// });
 router.post("/uploads", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "no files uploaded" });
   }
 
-  const functionId = req.body.functionId; // מגיע מהבקשה (axios/FormData)
+  const functionId = req.body.functionId;
   if (!functionId) {
-    return res.status(400).json({ error: "fileId is required" });
+    return res.status(400).json({ error: "functionId is required" });
   }
 
-  const fileName = req.file.filename;
+  const fileName = req.file.filename; // שם הטכני (נשמר בשרת)
+  const originalName = req.file.originalname; // השם המקורי של הקובץ
 
-  const query = "INSERT INTO files (fileName) VALUES (?)";
-  db.query(query, [fileName], (err, result) => {
+  const query = "INSERT INTO files (fileName, originalName) VALUES (?, ?)";
+  db.query(query, [fileName, originalName], (err, result) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ err });

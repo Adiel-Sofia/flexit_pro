@@ -5,10 +5,11 @@ const nodemailer = require("nodemailer");
 const dbSingleton = require("../dbSingleton");
 const sgMail = require("@sendgrid/mail");
 const db = dbSingleton.getConnection();
-
+const bcrypt = require("bcrypt");
 //our email to send from
 const system_mail = "FLEXIT.workspace@gmail.com";
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -17,65 +18,57 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-//request to enter a new user to db
 router.post("/register", (req, res) => {
-  let flag = false;
   const { email, firstName, lastName, phone, userName, userbDate, password } =
     req.body;
   const img = null;
 
-  //checks if there is already a user
+  // בדיקה אם המשתמש כבר קיים
   const query = "SELECT * FROM users WHERE email=? ";
   db.query(query, [email], (err, results) => {
-    if (err) {
-      res.status(500).send(err);
-      return;
-    }
-    //if a user exists send false so the FE can show err msg
+    if (err) return res.status(500).send(err);
+
     if (results.length > 0) {
-      res.send(false);
-    } else {
-      //in case there is no user - enter it to the db
+      return res.send(false); // כבר קיים
+    }
+
+    // הצפנת סיסמה לפני שמירה
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+      if (err) return res.status(500).send(err);
+
       const query1 =
-        "INSERT INTO users (email, userName, password, firstName, lastName, phoneNumber, bDay) VALUES (?,?,?,?,?,?,?)";
+        "INSERT INTO users (email, userName, password, firstName, lastName, phoneNumber, bDay, img) VALUES (?,?,?,?,?,?,?,?)";
+
       db.query(
         query1,
-        [email, userName, password, firstName, lastName, phone, userbDate, img],
+        [
+          email,
+          userName,
+          hashedPassword,
+          firstName,
+          lastName,
+          phone,
+          userbDate,
+          img,
+        ],
         (err, results) => {
-          if (err) {
-            res.status(500).send(err);
-            return;
-          }
+          if (err) return res.status(500).send(err);
 
-          //prepering email information
+          // שליחת מייל
           const mailOptions = {
             from: system_mail,
             to: email,
             subject: "Thank You for Joining Us!",
-            text: `Hi and welcome!
-
-            Thank you for signing up to our website — we're excited to have you on board.
-            From now on, you'll have access to all the tools, content, and services we offer.
-            If you have any questions or need assistance, feel free to reach out.
-
-          Wishing you a great experience!
-
-          Best regards,  
-          The Team`,
+            text: `Hi and welcome!\n\nThank you for signing up...`,
           };
 
-          transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log("Email sent: " + info.response);
-            }
-
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) console.log(error);
             return res.status(200).send({ success: true });
           });
         }
       );
-    }
+    });
   });
 });
 
@@ -97,21 +90,38 @@ router.post("/getData", (req, res) => {
   });
 });
 
-//cheking if user exist to log in
-router.post("/", (req, res) => {
-  const userData = req.body;
-  let userIn = null;
+// התחברות
 
-  //checking if the email and password entered are correct - in the DB
-  const query = "SELECT * FROM users WHERE email=? AND password=?";
-  db.query(query, [userData.email, userData.password], (err, results) => {
-    if (err) {
-      res.status(500).send(err);
-      return;
+router.post("/", (req, res) => {
+  const { email, password } = req.body;
+
+  const query = "SELECT * FROM users WHERE email=?";
+  db.query(query, [email], (err, results) => {
+    if (err) return res.status(500).send(err);
+
+    if (!results[0]) {
+      return res.json(null); // משתמש לא נמצא
     }
-    //dealing with results - if there is a user send the details , if not send null
-    if (results[0]) userIn = results[0];
-    res.json(userIn);
+
+    const user = results[0];
+
+    // השוואה בין סיסמה שהוזנה לסיסמה המוצפנת בבסיס הנתונים
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+      if (err) return res.status(500).send(err);
+
+      if (isMatch) {
+        // יוצרים אובייקט חדש בלי הסיסמה
+        const safeUser = {
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userName: user.userName,
+        };
+        res.json(safeUser); // שולחים רק מידע בטוח
+      } else {
+        res.json(null); // סיסמה לא נכונה
+      }
+    });
   });
 });
 
@@ -147,29 +157,34 @@ router.put("/sendEmail", (req, res) => {
   });
 });
 
-//changin the password in the db
 router.put("/changePassword", (req, res) => {
   const { email, oldPass, newPass } = req.body;
-  const query = "SELECT password from users WHERE email=?";
+
+  const query = "SELECT password FROM users WHERE email=?";
   db.query(query, [email], (err, results) => {
-    if (err) {
-      res.status(500).send(err);
-      return;
-    }
-    console.log("blah");
-    console.log(results.password);
-    if (results[0] && results[0].password === oldPass) {
-      query1 = "UPDATE users SET password=? WHERE email=?";
-      db.query(query1, [newPass, email], (err, results) => {
-        if (err) {
-          res.status(500).send(err);
-          return;
-        }
-        res.send(true);
+    if (err) return res.status(500).send(err);
+
+    if (!results[0]) return res.send(false);
+
+    const hashedPassword = results[0].password;
+
+    // בודקים שהסיסמה הישנה תואמת
+    bcrypt.compare(oldPass, hashedPassword, (err, isMatch) => {
+      if (err) return res.status(500).send(err);
+
+      if (!isMatch) return res.send(false);
+
+      // מצפינים את הסיסמה החדשה
+      bcrypt.hash(newPass, 10, (err, newHashed) => {
+        if (err) return res.status(500).send(err);
+
+        const query1 = "UPDATE users SET password=? WHERE email=?";
+        db.query(query1, [newHashed, email], (err, results) => {
+          if (err) return res.status(500).send(err);
+          res.send(true);
+        });
       });
-    } else {
-      res.send(false);
-    }
+    });
   });
 });
 
