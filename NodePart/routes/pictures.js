@@ -5,6 +5,7 @@ const router = express.Router();
 const dbSingleton = require("../dbSingleton");
 const db = dbSingleton.getConnection();
 
+//להביא את כל ה id של תמונות לפיפונקציה ספציפית
 router.post("/", (req, res) => {
   const functionId = req.body.functionId;
   const query = "SELECT pictureId FROM functions_pictures WHERE functionId = ?";
@@ -18,6 +19,7 @@ router.post("/", (req, res) => {
   });
 });
 
+//להביא את כל המידע של תמונות לפי picturesIdsשקיבנו
 router.post("/data", (req, res) => {
   const picturesIds = req.body.picturesIds;
   const query = "SELECT * FROM pictures WHERE pictureId IN (?)";
@@ -32,6 +34,7 @@ router.post("/data", (req, res) => {
   });
 });
 
+//למחוק תמונה מהמסד נתונים
 router.delete("/delete/:pictureId", (req, res) => {
   const pictureId = req.params.pictureId;
   const query1 = "DELETE FROM pictures WHERE pictureId = ?";
@@ -56,6 +59,7 @@ const storage = multer.diskStorage({
   },
 });
 
+//סינון סיומות הקבצים שניתן להעלות
 function fileFilter(req, file, cb) {
   const allowedTypes = /jpeg|jpg|png|gif/;
   const extname = allowedTypes.test(

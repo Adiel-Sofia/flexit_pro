@@ -6,14 +6,24 @@ import axios from "axios";
 import classes from "./imageGallery.module.css";
 
 export default function ImageGallery({ functionId }) {
+  // state לניהול פתיחת חלון צפייה בתמונה
   const [open, setOpen] = useState(false);
+  // state לאחסון כל התמונות
   const [images, setImages] = useState([]);
+  // state לניהול התמונה הנוכחית בגלריה
   const [currentIndex, setCurrentIndex] = useState(0);
+  // state לפתיחת חלון הוספת תמונה
   const [isAdding, setIsAdding] = useState(false);
+  // state לשמירת הודעת שגיאה
   const [error, setError] = useState(null);
+  // state לקובץ שנבחר להעלאה
   const [file, setFile] = useState(null);
+  // state לניהול פופאפ מחיקה
   const [deletePopup, setDeletePopup] = useState(false);
+  // state לאחסון מזהה התמונה למחיקה
   const [imageToDelete, setImageToDelete] = useState(null);
+
+  // פונקציה להעלאת תמונה לשרת
   function uploadPicture() {
     console.log("here");
     if (!file) {
@@ -34,7 +44,7 @@ export default function ImageGallery({ functionId }) {
           setIsAdding(false);
           setFile(null);
           setError(null);
-          getImagesData();
+          getImagesData(); // רענון רשימת התמונות אחרי העלאה
         } else {
           setError("Failed to upload image");
         }
@@ -45,6 +55,7 @@ export default function ImageGallery({ functionId }) {
       });
   }
 
+  // פונקציה להבאת רשימת התמונות מהשרת
   function getImagesData() {
     const functionToSend = { functionId };
     axios
@@ -65,24 +76,26 @@ export default function ImageGallery({ functionId }) {
             })
             .catch((error) => console.error("Error in /pictures/data:", error));
         } else {
-          setImages([]);
+          setImages([]); // אין תמונות
         }
       })
       .catch((error) => console.error("Error in /pictures:", error));
   }
 
+  // פותח פופאפ למחיקת תמונה
   const confirmDelete = (id) => {
     setImageToDelete(id);
     setDeletePopup(true);
   };
 
+  // מוחק את התמונה שנבחרה
   const handleDelete = () => {
     if (!imageToDelete) return;
     console.log(imageToDelete);
     axios
       .delete(`/pictures/delete/${imageToDelete}`)
       .then(() => {
-        getImagesData();
+        getImagesData(); // רענון הגלריה אחרי מחיקה
         setDeletePopup(false);
         setImageToDelete(null);
       })
@@ -93,17 +106,21 @@ export default function ImageGallery({ functionId }) {
       });
   };
 
+  // סגירת פופאפ מחיקה
   const cancelDelete = () => {
     setDeletePopup(false);
     setImageToDelete(null);
   };
 
+  // טוען את התמונות בכל פעם ש־functionId משתנה
   useEffect(() => {
     getImagesData();
   }, [functionId]);
 
+  
   return (
     <div className={classes.gallery_container}>
+      {/* כותרת + כפתור להוספת תמונה */}
       <div className={classes.bloglist_header}>
         <div>Gallery</div>
         <div>
@@ -111,6 +128,7 @@ export default function ImageGallery({ functionId }) {
         </div>
       </div>
 
+      {/* תצוגת גריד של תמונות */}
       <div className={classes.gallery_grid}>
         {images.map((img, index) => (
           <div key={index} className={classes.gallery_item}>
@@ -119,9 +137,10 @@ export default function ImageGallery({ functionId }) {
               alt={img.alt || `Image ${index + 1}`}
               onClick={() => {
                 setCurrentIndex(index);
-                setOpen(true);
+                setOpen(true); // פתיחת lightbox
               }}
             />
+            {/* כפתור מחיקה לכל תמונה */}
             <button
               className={classes.delete_button}
               onClick={() => confirmDelete(img.id)}
@@ -132,6 +151,7 @@ export default function ImageGallery({ functionId }) {
         ))}
       </div>
 
+      {/* חלון Lightbox להצגת תמונות במסך מלא */}
       {open && (
         <Lightbox
           open={open}
@@ -142,6 +162,7 @@ export default function ImageGallery({ functionId }) {
         />
       )}
 
+      {/* פופאפ למחיקת תמונה */}
       {deletePopup && (
         <div className={classes.popup_overlay}>
           <div className={classes.popup}>
@@ -156,6 +177,7 @@ export default function ImageGallery({ functionId }) {
         </div>
       )}
 
+      {/* פופאפ להוספת תמונה חדשה */}
       {isAdding && (
         <div className={classes.popup_overlay}>
           <div className={classes.popup}>

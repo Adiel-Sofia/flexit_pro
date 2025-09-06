@@ -10,6 +10,7 @@ const Blog = ({ title, author, date, content, postId, getBlogData }) => {
   const [editedDate, setEditedDate] = useState(date.split("T")[0]); // רק התאריך
   const [editedContent, setEditedContent] = useState(content);
 
+  //פונקציה למחיקת פרויקט מהשרת
   function deleteItem(postId) {
     axios
       .delete(`/posts/delete/${postId}`)
@@ -23,6 +24,7 @@ const Blog = ({ title, author, date, content, postId, getBlogData }) => {
       });
   }
 
+  //שמירת פוסט חדש בשרת
   const handleSave = () => {
     const updatedPost = {
       postId: postId,

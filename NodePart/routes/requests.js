@@ -3,6 +3,7 @@ const router = express.Router();
 const dbSingleton = require("../dbSingleton");
 const db = dbSingleton.getConnection();
 
+//עדכון סטסוט בקשה ללא פעילה
 router.put("/deny", (req, res) => {
   const requestId = req.body.requestId;
   const query = "UPDATE requests SET active = ? WHERE requestId = ?";
@@ -16,6 +17,7 @@ router.put("/deny", (req, res) => {
   });
 });
 
+//עדכון בקשה ללא פעילה וניהול הוספת פרויקט למשתמש בעקבות השיתוף
 router.put("/accept", (req, res) => {
   const requestId = req.body.requestId;
   const projectId = req.body.projectId;
@@ -41,6 +43,7 @@ router.put("/accept", (req, res) => {
   });
 });
 
+//הבאת כל בקשות השיתוף
 router.post("/", (req, res) => {
   const email = req.body.email;
 

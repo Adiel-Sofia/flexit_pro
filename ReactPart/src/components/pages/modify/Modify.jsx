@@ -23,6 +23,7 @@ export default function Modify() {
     "contacts",
   ];
 
+  //sharing project request
   function handleShare(proId) {
     console.log(currentProject);
     if (!shareEmail) return alert("Please enter an email");
@@ -52,10 +53,12 @@ export default function Modify() {
     fetchData();
   }, []);
 
+  //showing all the functions in the projects
   const allFunctionComponents = functionsType.map((type) => {
     const found = functions.find((f) => f.type === type);
     if (found) {
       return (
+        //if function is active
         <Function
           onClickFunc={() => {}}
           setShowFunctions={() => {}}
@@ -68,6 +71,7 @@ export default function Modify() {
         />
       );
     } else {
+      //if it is not active
       return (
         <Function
           showChecked={true}
@@ -81,6 +85,7 @@ export default function Modify() {
     }
   });
 
+  //function that gets projects data from DB
   function fetchData() {
     const emailOfUser = JSON.parse(localStorage.getItem("user")).email;
     const userToSend = {
@@ -112,7 +117,7 @@ export default function Modify() {
         console.error("Error:", error);
       });
   }
-
+  //handles the changes of project style
   function handleChangeStyle() {
     const projectData = {
       projectName: currentProject.name,

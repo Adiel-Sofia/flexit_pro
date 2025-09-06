@@ -3,50 +3,7 @@ const router = express.Router();
 const dbSingleton = require("../dbSingleton");
 const db = dbSingleton.getConnection();
 
-// router.post("/", (req, res) => {
-//   const functionId = req.body.functionId;
-
-//   const query = `
-//     SELECT l.listId, l.listName, li.content
-//     FROM list_function lf
-//     JOIN list l ON lf.listId = l.listId
-//     LEFT JOIN list_listitem lli ON l.listId = lli.listId
-//     LEFT JOIN listitem li ON lli.listItemId = li.listItemId
-//     WHERE lf.functionId = ?
-//     ORDER BY l.listId, li.listItemId
-//   `;
-
-//   db.query(query, [functionId], (err, results) => {
-//     if (err) {
-//       console.error("DB error:", err);
-//       return res.status(500).send(err);
-//     }
-
-//     const listsArray = [];
-
-//     results.forEach((row) => {
-//       // מחפשים אם הרשימה כבר קיימת במערך
-//       let listObj = listsArray.find((l) => l.listId === row.listId);
-
-//       if (!listObj) {
-//         // אם לא קיימת, יוצרים אובייקט חדש ומוסיפים למערך
-//         listObj = {
-//           listId: row.listId,
-//           title: row.listName,
-//           items: [],
-//         };
-//         listsArray.push(listObj);
-//       }
-
-//       if (row.content) {
-//         listObj.items.push({ text: row.content, completed: false });
-//       }
-//     });
-
-//     res.json(listsArray);
-//   });
-// });
-
+//הבאת כל הרשימות והרשומות שלהן
 router.post("/", (req, res) => {
   const functionId = req.body.functionId;
 
@@ -68,6 +25,7 @@ router.post("/", (req, res) => {
 
     const listsArray = [];
 
+    //הכנת אובייקט לכל רשימה
     results.forEach((row) => {
       let listObj = listsArray.find((l) => l.listId === row.listId);
 
@@ -91,9 +49,11 @@ router.post("/", (req, res) => {
     res.json(listsArray);
   });
 });
+
+//מחיקת רשימה שלמה
 router.delete("/delete/:listId", (req, res) => {
   const listId = req.params.listId;
-
+  //מחיקת הרשומות של כל רשימה
   const deleteItemsQuery = `
     DELETE li FROM listitem li
     JOIN list_listitem lli ON li.listItemId = lli.listItemId
@@ -118,6 +78,7 @@ router.delete("/delete/:listId", (req, res) => {
   });
 });
 
+//הוספת רשימה חדשה למסד הנתונים
 router.post("/add", (req, res) => {
   const { functionId, listName } = req.body;
 
@@ -157,6 +118,7 @@ router.post("/add", (req, res) => {
   });
 });
 
+//הוספת רשומה חדשה לרשימה ספציפית במסד הנתונים
 router.post("/itemAddition", (req, res) => {
   const { listId, text } = req.body;
 
@@ -191,6 +153,7 @@ router.post("/itemAddition", (req, res) => {
   });
 });
 
+//מחיקת רשומה ספציפית מרשימה ספציפית
 router.delete("/itemDelete/:listItemId", (req, res) => {
   const listItemId = req.params.listItemId;
 

@@ -1,6 +1,3 @@
-//Adiel Sofia Mendelson 206352742
-//Orly Wallela 206696775
-
 const express = require("express");
 const app = express();
 const path = require("path");

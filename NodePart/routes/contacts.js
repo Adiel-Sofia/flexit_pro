@@ -3,7 +3,7 @@ const router = express.Router();
 const dbSingleton = require("../dbSingleton");
 const db = dbSingleton.getConnection();
 
-// השתמש ב-router ולא ב-app
+//מביא את כל אנשי הקשר לפי ה functionId
 router.post("/", (req, res) => {
   const { functionId } = req.body;
   const query = `
@@ -22,6 +22,7 @@ router.post("/", (req, res) => {
   });
 });
 
+//מוסיף איש קשר חדש למסד הנתונים
 router.post("/add", (req, res) => {
   const { fullName, email, phoneNumber, functionId } = req.body;
   const insertContactQuery = `
@@ -50,7 +51,7 @@ router.post("/add", (req, res) => {
   );
 });
 
-// --- עדכון איש קשר ---
+//עדכון איש קשר
 router.post("/edit", (req, res) => {
   const { contactId, fullName, email, phoneNumber } = req.body;
 
@@ -73,6 +74,7 @@ router.post("/edit", (req, res) => {
   });
 });
 
+//מחיקת איש קשר ממסד הנתונים
 router.delete("/delete", (req, res) => {
   const { contactId } = req.query; // כאן אנחנו לוקחים מה-URL
 

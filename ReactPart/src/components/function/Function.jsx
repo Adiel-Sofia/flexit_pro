@@ -14,19 +14,23 @@ import axios from "axios";
  */
 export default function Function(props) {
   const {
-    type,
-    active,
-    projectId,
-    functionId,
-    showChecked,
-    setShowFunctions,
-    onClickFunc,
+    type, // סוג הפונקציה (calendar, gallery, blog וכו')
+    active, // האם הפונקציה פעילה כברירת מחדל
+    projectId, // מזהה הפרויקט
+    functionId, // מזהה הפונקציה במסד הנתונים
+    showChecked, // האם להציג צ'קבוקס להפעלה/כיבוי
+    setShowFunctions, // setter לסגירת/פתיחת רשימת הפונקציות
+    onClickFunc, // פונקציה שנקראת בעת לחיצה על אייקון
   } = props;
-  const [activeState, setActiveState] = useState(active);
-  const [functionID, setFunctionID] = useState(functionId);
+
+  const [activeState, setActiveState] = useState(active); // מצב מקומי אם הפונקציה פעילה
+  const [functionID, setFunctionID] = useState(functionId); // מזהה מקומי של הפונקציה
+
+  // טיפול בלחיצה על צ'קבוקס (הוספה למסד או עדכון מצב)
   function handleFunctionCheckBox(functionName) {
     console.log(functionID);
     if (functionID === null) {
+      // יצירת פונקציה חדשה במסד נתונים
       const functionsData = {
         email: JSON.parse(localStorage.getItem("user")).email,
         functions: { [functionName]: true },
@@ -35,12 +39,13 @@ export default function Function(props) {
       axios
         .post("function", functionsData)
         .then((res) => {
-          setFunctionID(res.data.functionId);
+          setFunctionID(res.data.functionId); // עדכון מזהה הפונקציה שחזר מהשרת
         })
         .catch((error) => {
           console.error("Error:", error);
         });
     } else {
+      // עדכון מצב פעיל/כבוי לפונקציה קיימת
       const functionsData = {
         functionId: functionID,
         state: !activeState,
@@ -57,29 +62,33 @@ export default function Function(props) {
     }
   }
 
+  // טיפול בלחיצה על האייקון (רק אם הצ'קבוקס לא מוצג)
   function handleClick() {
     if (!showChecked) {
-      setShowFunctions(false);
-      onClickFunc(type, functionID);
+      setShowFunctions(false); // סגירת רשימת הפונקציות
+      onClickFunc(type, functionID); // הפעלת הפונקציה שנבחרה
       console.log("clicked");
     }
   }
+
   return (
     <div className={classes.wrapper}>
+      {/* הצגת צ'קבוקס לבחירה אם להפעיל/לכבות פונקציה */}
       {showChecked === true ? (
         <div className={classes.checkBoxItem}>
           <input
             type="checkbox"
-            checked={activeState}
+            checked={activeState} // מצב נוכחי אם פעיל
             onChange={() => {
-              handleFunctionCheckBox(type);
-              setActiveState((prev) => !prev);
+              handleFunctionCheckBox(type); // קריאה לשרת לעדכון/שמירה
+              setActiveState((prev) => !prev); // עדכון מצב מקומי
             }}
           />
           <label>{type}</label>
         </div>
       ) : null}
 
+      {/* הצגת אייקון לפי סוג הפונקציה, כל אייקון בלחיצה מפעיל handleClick */}
       <div className={classes.styleIcon}>
         {type === "calendar" ? <FaCalendarAlt onClick={handleClick} /> : null}
         {type === "gallery" ? <TfiGallery onClick={handleClick} /> : null}

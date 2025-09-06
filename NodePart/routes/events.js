@@ -38,6 +38,7 @@ router.post("/data", (req, res) => {
   });
 });
 
+//הוספת אירוע חדש למסד נתונים
 router.post("/add", (req, res) => {
   const { functionId, title, startTime, endTime, allDay } = req.body;
 
@@ -76,6 +77,8 @@ router.post("/add", (req, res) => {
   });
 });
 
+
+//עדכון של אירוע במסד נתונים
 router.post("/update", (req, res) => {
   const { eventId, title, startTime, endTime, allDay } = req.body;
   if (!eventId || !title || !startTime || !endTime) {
@@ -93,6 +96,8 @@ router.post("/update", (req, res) => {
   });
 });
 
+
+//מחיקת אירוע לפי eventId
 router.delete("/delete/:eventId", (req, res) => {
   const eventId = req.params.eventId;
   const query1 = "DELETE FROM event WHERE eventId = ?";

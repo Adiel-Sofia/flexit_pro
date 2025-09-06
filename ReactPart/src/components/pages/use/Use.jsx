@@ -41,6 +41,8 @@ export default function Use() {
     if (type === "list") setShowLists(true);
     if (type === "contacts") setShowContacts(true);
   }
+
+  //going back button
   function handleGoBack() {
     setShowFunctions(true);
     setShowCalendar(false);
@@ -51,6 +53,7 @@ export default function Use() {
     setShowGallery(false);
   }
 
+  //shows all functions in the project
   const allFunctionComponents = functions.map((el) => {
     if (el.active == 1) {
       return (
@@ -68,6 +71,8 @@ export default function Use() {
     }
     return null;
   });
+
+  //fetching all projects
   const fetchData = () => {
     const emailOfUser = JSON.parse(localStorage.getItem("user")).email;
     const userToSend = {
@@ -83,6 +88,7 @@ export default function Use() {
       });
   };
 
+  //fetching all functions data
   function getFunctions(project) {
     handleGoBack();
     setCurrentProject(project);

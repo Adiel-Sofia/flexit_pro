@@ -5,6 +5,7 @@ const db = dbSingleton.getConnection();
 const multer = require("multer");
 const path = require("path");
 
+//הבאת כל fileId מהמסד נתונים בהתאם לפונקציה
 router.post("/", (req, res) => {
   const functionId = req.body.functionId;
 
@@ -19,6 +20,7 @@ router.post("/", (req, res) => {
   });
 });
 
+//הבאת כל נתוני הקבצים לפי רשימת fileIds
 router.post("/data", (req, res) => {
   const filesIds = req.body.filesIds;
   const query = "SELECT * FROM files WHERE fileId IN (?)";
@@ -33,6 +35,7 @@ router.post("/data", (req, res) => {
   });
 });
 
+//מחיקת קובץ מהמסד נתונים
 router.delete("/delete/:fileId", (req, res) => {
   const fileId = req.params.fileId;
   const query1 = "DELETE FROM files WHERE fileId = ?";
@@ -45,8 +48,6 @@ router.delete("/delete/:fileId", (req, res) => {
   });
 });
 
-//uploading files
-
 // הגדרת storage עם תיקיית files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -57,6 +58,7 @@ const storage = multer.diskStorage({
   },
 });
 
+//סינון סוגי הקובצים שניתן להעלות
 function fileFilter(req, file, cb) {
   const allowedTypes = /doc|docx|xls|xlsx|pdf|txt/;
   const extname = allowedTypes.test(
@@ -75,40 +77,7 @@ function fileFilter(req, file, cb) {
 
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-// נתיב העלאת תמונה
-// router.post("/uploads", upload.single("file"), (req, res) => {
-//   if (!req.file) {
-//     return res.status(400).json({ error: "no files uploaded" });
-//   }
-
-//   const functionId = req.body.functionId; // מגיע מהבקשה (axios/FormData)
-//   if (!functionId) {
-//     return res.status(400).json({ error: "fileId is required" });
-//   }
-
-//   const fileName = req.file.filename;
-
-//   const query = "INSERT INTO files (fileName) VALUES (?)";
-//   db.query(query, [fileName], (err, result) => {
-//     if (err) {
-//       console.error(err);
-//       return res.status(500).json({ err });
-//     }
-
-//     const fileId = result.insertId;
-
-//     const query1 =
-//       "INSERT INTO functions_files (functionId, fileId) VALUES (?, ?)";
-//     db.query(query1, [functionId, fileId], (err2) => {
-//       if (err2) {
-//         console.error("Err:", err2);
-//         return res.status(500).json({ err2 });
-//       }
-
-//       res.send(true);
-//     });
-//   });
-// });
+//uploading files
 router.post("/uploads", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "no files uploaded" });
@@ -119,7 +88,7 @@ router.post("/uploads", upload.single("file"), (req, res) => {
     return res.status(400).json({ error: "functionId is required" });
   }
 
-  const fileName = req.file.filename; // שם הטכני (נשמר בשרת)
+  const fileName = req.file.filename;
   const originalName = req.file.originalname; // השם המקורי של הקובץ
 
   const query = "INSERT INTO files (fileName, originalName) VALUES (?, ?)";

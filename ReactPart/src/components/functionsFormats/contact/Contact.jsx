@@ -5,7 +5,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import axios from "axios";
 
 /**
- * ContactCard
+ * Contact
  * Props:
  * - contactId: number
  * - fullName: string
@@ -15,9 +15,9 @@ import axios from "axios";
  */
 export default function Contact({
   contactId,
-  fullName = "Adiel Sofia Mendelson",
-  email = "adiel13150@gmail.com",
-  phoneNumber = "054-4777627",
+  fullName,
+  email,
+  phoneNumber,
   getAllContacts,
 }) {
   const [showEditPopup, setShowEditPopup] = useState(false);
@@ -40,12 +40,13 @@ export default function Contact({
       return;
     }
 
+    //email check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(editContact.email)) {
       setErrorMessage("פורמט אימייל לא נכון");
       return;
     }
-
+    //phone number check
     const phoneRegex = /^[0-9\-+]{7,15}$/;
     if (!phoneRegex.test(editContact.phoneNumber)) {
       setErrorMessage("פורמט טלפון לא נכון");

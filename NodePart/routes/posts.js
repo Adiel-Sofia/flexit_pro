@@ -28,11 +28,12 @@ router.post("/data", (req, res) => {
       console.error("DB error:", err);
       return res.status(500).send(err);
     }
-    // כאן צריך לשלוח בחזרה ללקוח, לא res.data
+
     res.send(result);
   });
 });
 
+//עריכת נתונים של פוסט של בלוג
 router.put("/edit", (req, res) => {
   const postId = req.body.postId;
   const title = req.body.title;
@@ -53,6 +54,7 @@ router.put("/edit", (req, res) => {
   });
 });
 
+//הוספת פוסט לבלוג מסוים במסד הנתונים
 router.put("/add", (req, res) => {
   const functionId = req.body.functionId;
   const title = req.body.title;
@@ -79,6 +81,7 @@ router.put("/add", (req, res) => {
   });
 });
 
+//מחיקת פוסט מסוים מבלוג במסד הנתונים
 router.delete("/delete/:postId", (req, res) => {
   const postId = req.params.postId;
   const query1 = "DELETE FROM posts WHERE postId = ?";

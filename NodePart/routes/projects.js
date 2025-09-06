@@ -118,6 +118,7 @@ router.put("/style", (req, res) => {
   });
 });
 
+//מחיקת פרויקט ממסד הנתונים
 router.put("/delete", (req, res) => {
   const projectId = req.body.projectId;
   console.log(projectId);
@@ -134,6 +135,7 @@ router.put("/delete", (req, res) => {
   });
 });
 
+//הוספת בקשת שיתוך לטבלת rewuests
 router.post("/share", (req, res) => {
   const projectId = req.body.projectId;
   const fromEmail = req.body.fromEmail;

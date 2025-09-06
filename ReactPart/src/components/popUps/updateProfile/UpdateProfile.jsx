@@ -4,14 +4,18 @@ import Submit from "../../buttons/submit/Submit";
 import axios from "axios";
 
 export default function UpdateProfile(props) {
+  // שמירת האימייל של המשתמש מתוך localStorage
   const [email, setEmail] = useState(
     JSON.parse(localStorage.getItem("user")).email
   );
+  // סטייטים עבור פרטי המשתמש
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [userName, setUserName] = useState("");
   const { setUpdatePopUp } = props;
+
+  // פונקציה לשליחת הטופס - מעדכנת את פרטי המשתמש בשרת
   const handleSubmit = (e) => {
     const userToUpdate = {
       email: email,
@@ -23,17 +27,19 @@ export default function UpdateProfile(props) {
     axios
       .put("user/update", userToUpdate)
       .then((res) => {
-        setUpdatePopUp(false);
+        setUpdatePopUp(false); // סגירת חלון העדכון לאחר הצלחה
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
 
+  // טעינת הנתונים הראשוניים של המשתמש עם טעינת הקומפוננטה
   useEffect(() => {
     fetchData();
   }, []);
 
+  // בקשת נתוני המשתמש מהשרת לפי האימייל
   const fetchData = () => {
     const userToSend = {
       email: email,
@@ -53,16 +59,20 @@ export default function UpdateProfile(props) {
   };
 
   return (
+    // מבנה ה־UI של הפופאפ לעדכון פרופיל
     <div className={classes.overlay}>
       <div className={classes.popup}>
-        {/* Close Button */}
+        {/* כפתור לסגירת הפופאפ */}
         <button
           className={classes.closeButton}
           onClick={() => setUpdatePopUp(false)}
         >
-          &times; {/* A common character for a close button */}
+          &times;
         </button>
+
+        {/* טופס עדכון פרטי המשתמש */}
         <form className={classes.createAccountForm} onSubmit={handleSubmit}>
+          {/* שדה אימייל - לקריאה בלבד */}
           <div className={classes.form__item}>
             <label>Email:</label>
             <input
@@ -72,6 +82,8 @@ export default function UpdateProfile(props) {
               value={email}
             />
           </div>
+
+          {/* שדה שם פרטי */}
           <div className={classes.form__item}>
             <label>First Name:</label>
             <input
@@ -83,6 +95,8 @@ export default function UpdateProfile(props) {
               onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
+
+          {/* שדה שם משפחה */}
           <div className={classes.form__item}>
             <label>Last Name:</label>
             <input
@@ -94,6 +108,8 @@ export default function UpdateProfile(props) {
               onChange={(e) => setLastName(e.target.value)}
             />
           </div>
+
+          {/* שדה טלפון עם pattern לתבנית תקינה */}
           <div className={classes.form__item}>
             <label>Phone Number:</label>
             <input
@@ -106,6 +122,8 @@ export default function UpdateProfile(props) {
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
+
+          {/* שדה שם משתמש */}
           <div className={classes.form__item}>
             <label>User Name:</label>
             <input
@@ -118,6 +136,7 @@ export default function UpdateProfile(props) {
             />
           </div>
 
+          {/* כפתור שליחה - עדכון פרופיל */}
           <Submit text="Update My Profile!" />
         </form>
       </div>

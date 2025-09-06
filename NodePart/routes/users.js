@@ -6,6 +6,7 @@ const dbSingleton = require("../dbSingleton");
 const sgMail = require("@sendgrid/mail");
 const db = dbSingleton.getConnection();
 const bcrypt = require("bcrypt");
+
 //our email to send from
 const system_mail = "FLEXIT.workspace@gmail.com";
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -91,7 +92,6 @@ router.post("/getData", (req, res) => {
 });
 
 // התחברות
-
 router.post("/", (req, res) => {
   const { email, password } = req.body;
 
@@ -157,6 +157,7 @@ router.put("/sendEmail", (req, res) => {
   });
 });
 
+//החלפת סיסמה למשתמש
 router.put("/changePassword", (req, res) => {
   const { email, oldPass, newPass } = req.body;
 

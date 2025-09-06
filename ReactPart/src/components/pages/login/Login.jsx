@@ -14,6 +14,8 @@ export default function Login(props) {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+
+  //function to check if user exists and navigate to home
   function navigateToCreate() {
     navigate("/create");
   }
